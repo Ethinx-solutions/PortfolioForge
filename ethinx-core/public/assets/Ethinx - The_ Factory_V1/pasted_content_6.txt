@@ -1,0 +1,51 @@
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+python3: can't open file '/tmp/generate_audio.py': [Errno 2] No such file or directory
+root@ubuntu-8gb-nbg1-1:~/ethinx/vega/shell# cat > /tmp/generate_audio.py << 'SCRIPT'
+import numpy as np
+from scipy.io import wavfile
+import os
+
+asset_path = '/var/www/vegas-saas/assets/audio/'
+if not os.path.exists(asset_path):
+    os.makedirs(asset_path)
+
+def generate_revenue_ping(fs=44100):
+    t = np.linspace(0, 1.5, int(fs * 1.5))
+    wave = np.sin(2 * np.pi * 987.77 * t) * np.exp(-3 * t)
+    wave += 0.5 * np.sin(2 * np.pi * 1975.54 * t) * np.exp(-6 * t)
+    return (wave * 32767).astype(np.int16)
+
+def generate_system_hardened(fs=44100):
+    t = np.linspace(0, 2.0, int(fs * 2.0))
+    wave = np.sign(np.sin(2 * np.pi * 110 * t)) * np.exp(-2 * t)
+    wave *= (1 - 0.5 * t)
+    return (wave * 15000).astype(np.int16)
+
+def generate_flux_complete(fs=44100):
+    t = np.linspace(0, 2.0, int(fs * 2.0))
+    freq = np.linspace(440, 1760, len(t))
+    wave = np.sin(2 * np.pi * freq * t) * np.exp(-1.5 * t)
+    return (wave * 25000).astype(np.int16)
+
+fs = 44100
+wavfile.write(os.path.join(asset_path, 'revenue_ping.wav'), fs, generate_revenue_ping(fs))
+wavfile.write(os.path.join(asset_path, 'system_hardened.wav'), fs, generate_system_hardened(fs))
+wavfile.write(os.path.join(asset_path, 'flux_complete.wav'), fs, generate_flux_complete(fs))
+print(f"Assets successfully minted in {asset_path}")
+ls -la /var/www/vegas-saas/assets/audio/
+Assets successfully minted in /var/www/vegas-saas/assets/audio/
+total 492
+drwxr-xr-x 2 root root   4096 Mar 28 06:49 .
+drwxr-xr-x 3 root root   4096 Mar 28 06:49 ..
+-rw-r--r-- 1 root root 176444 Mar 28 06:49 flux_complete.wav
+-rw-r--r-- 1 root root 132344 Mar 28 06:49 revenue_ping.wav
+-rw-r--r-- 1 root root 176444 Mar 28 06:49 system_hardened.wav

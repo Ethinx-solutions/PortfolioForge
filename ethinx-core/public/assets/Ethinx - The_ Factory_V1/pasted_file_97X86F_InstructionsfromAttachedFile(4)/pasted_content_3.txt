@@ -1,0 +1,334 @@
+⭐ PACK CATEGORY 1 — MVP BUILDER PACKS (8 PACKS)
+Each pack includes 3–7 prompts, all required components, and visualisation hooks.
+MVP PACK 1 — 7‑DAY MVP BUILDER PACK
+Purpose: Build a working MVP in 7 days
+Pack Size: 7 prompts
+Ideal For: SaaS, tools, apps, extensions, niche utilities
+
+Prompt 1 — Market & Feature Validation
+“Run a market analysis for the idea: [USER IDEA].
+Identify:
+
+Top 5 user pains
+
+Top 5 competitors
+
+The #1 underserved gap
+
+A must‑have vs nice‑to‑have feature list
+Run debug + security checks before output.”
+
+Visualisation Trigger:  
+“Generate a UI concept image prompt for the MVP’s core screen.”
+
+Prompt 2 — MVP Architecture
+“Design a minimal architecture for the MVP using [TECH STACK BIAS].
+Include:
+
+Frontend
+
+Backend
+
+Database
+
+Auth
+
+Integrations
+
+Automation layer
+
+Deployment path
+Run debug + security checks.”
+
+Visualisation Trigger:  
+“Generate a visual layout prompt for the main user flow.”
+
+Prompt 3 — 7‑Day Build Plan
+“Create a 7‑day build plan with daily milestones.
+Each day must include:
+
+Tasks
+
+Dependencies
+
+Success criteria
+
+Automation opportunities
+Run debug + security checks.”
+
+Prompt 4 — Core Feature Implementation
+“Generate step‑by‑step build instructions for the core feature: [FEATURE].
+Include UI, backend logic, DB schema, and automation.
+Run debug + security checks.”
+
+Visualisation Trigger:  
+“Generate a UI mockup prompt for the core feature.”
+
+Prompt 5 — Payment Integration
+“Add monetisation using [MONETISATION MODE].
+Include:
+
+Pricing
+
+Stripe setup
+
+Subscription tiers
+
+Upsell triggers
+Run debug + security checks.”
+
+Prompt 6 — Deployment
+“Provide deployment instructions for [HOSTING PLATFORM].
+Include:
+
+Environment variables
+
+Build commands
+
+DB migrations
+
+Testing
+Run debug + security checks.”
+
+Prompt 7 — Launch Checklist
+“Generate a launch checklist including:
+
+Landing page
+
+Onboarding
+
+Analytics
+
+Email capture
+
+SEO basics
+
+Feedback loop
+Run debug + security checks.”
+
+MVP PACK 2 — NO‑CODE MVP PACK
+Purpose: Build an MVP using Bubble/Webflow/Glide
+Pack Size: 5 prompts
+Ideal For: Non‑technical founders
+
+Prompt 1 — No‑Code Architecture
+“Design a no‑code architecture using Bubble/Webflow/Glide + Airtable.
+Include:
+
+Data structure
+
+Workflows
+
+UI
+
+Automation
+Run debug + security checks.”
+
+Visualisation Trigger:  
+“Generate a Bubble/Webflow UI mockup prompt.”
+
+Prompt 2 — Database Setup
+“Create the Airtable schema for the MVP.
+Include tables, fields, relationships, formulas.
+Run debug + security checks.”
+
+Prompt 3 — Workflow Automation
+“Generate workflows for signup, data submission, notifications, and payment using Zapier/Make.
+Run debug + security checks.”
+
+Prompt 4 — UI Build Instructions
+“Provide step‑by‑step UI build instructions for Bubble/Webflow.
+Include pages, components, logic.
+Run debug + security checks.”
+
+Visualisation Trigger:  
+“Generate a UI layout prompt for the homepage.”
+
+Prompt 5 — Launch & Monetisation
+“Create a launch plan including pricing, landing page, email capture, and marketplace listing.
+Run debug + security checks.”
+
+MVP PACK 3 — AI‑NATIVE MVP PACK
+Purpose: Build an MVP centered around AI
+Pack Size: 6 prompts
+Ideal For: AI tools, chatbots, generators
+
+Prompt 1 — AI Use Case Definition
+“Define the AI use case for: [IDEA].
+Identify:
+
+Model type
+
+Input/output
+
+Constraints
+
+User value
+Run debug + security checks.”
+
+Prompt 2 — AI Architecture
+“Design an AI‑native architecture using LangChain/Vercel AI SDK + vector DB + Supabase.
+Run debug + security checks.”
+
+Visualisation Trigger:  
+“Generate a UI mockup prompt for the AI interaction screen.”
+
+Prompt 3 — Prompt Engineering
+“Generate the system prompt + user prompt templates for the AI feature.
+Run debug + security checks.”
+
+Prompt 4 — Agent Logic
+“Design agent workflows including memory, tools, retrieval, and error handling.
+Run debug + security checks.”
+
+Prompt 5 — Monetisation
+“Define monetisation: subscription, usage‑based billing, credits, or freemium.
+Run debug + security checks.”
+
+Prompt 6 — Deployment
+“Provide deployment instructions for Vercel + Supabase + vector DB.
+Run debug + security checks.”
+
+MVP PACK 4 — ULTRA‑LIGHT MVP PACK
+Purpose: Build using Notion, Sheets, Zapier
+Pack Size: 4 prompts
+Ideal For: Zero‑infrastructure builds
+
+Prompt 1 — Ultra‑Light Architecture
+“Design a Notion/Sheets‑based MVP with Zapier automation.
+Include data structure + workflows.
+Run debug + security checks.”
+
+Visualisation Trigger:  
+“Generate a Notion layout mockup prompt.”
+
+Prompt 2 — Automation Setup
+“Create Zapier workflows for data capture, notifications, and email sequences.
+Run debug + security checks.”
+
+Prompt 3 — Monetisation
+“Define monetisation using Gumroad + auto‑delivery + email onboarding.
+Run debug + security checks.”
+
+Prompt 4 — Launch Plan
+“Generate a 7‑day launch plan using Notion, Sheets, Zapier, and Gumroad.
+Run debug + security checks.”
+
+MVP PACK 5 — MOBILE MVP PACK
+Purpose: Build a mobile app prototype
+Pack Size: 6 prompts
+Ideal For: iOS/Android
+
+Prompt 1 — Mobile Architecture
+“Design a React Native/Expo architecture for the MVP.
+Run debug + security checks.”
+
+Visualisation Trigger:  
+“Generate a mobile UI mockup prompt.”
+
+Prompt 2 — Screen Flow
+“Create a screen map including navigation, components, and user flows.
+Run debug + security checks.”
+
+Prompt 3 — Backend Setup
+“Define backend using Supabase/Firebase.
+Include auth, DB schema, APIs.
+Run debug + security checks.”
+
+Prompt 4 — Core Feature Build
+“Generate step‑by‑step instructions to build the core feature: [FEATURE].
+Run debug + security checks.”
+
+Prompt 5 — Monetisation
+“Add monetisation: subscriptions, in‑app purchases, or one‑time purchases.
+Run debug + security checks.”
+
+Prompt 6 — Deployment
+“Provide instructions for TestFlight + Google Play internal testing.
+Run debug + security checks.”
+
+MVP PACK 6 — WEB APP MVP PACK
+Purpose: Build a full‑stack web app
+Pack Size: 7 prompts
+Ideal For: SaaS, dashboards, tools
+
+Prompt 1 — Architecture
+“Design a Next.js  + Supabase architecture for the MVP.
+Run debug + security checks.”
+
+Visualisation Trigger:  
+“Generate a UI mockup prompt for the dashboard.”
+
+Prompt 2 — Database Schema
+“Generate the DB schema for the MVP.
+Run debug + security checks.”
+
+Prompt 3 — Auth
+“Provide instructions for implementing Supabase auth.
+Run debug + security checks.”
+
+Prompt 4 — Core Feature Build
+“Generate implementation steps for the core feature.
+Run debug + security checks.”
+
+Prompt 5 — Payment
+“Add Stripe subscriptions + pricing tiers.
+Run debug + security checks.”
+
+Prompt 6 — Deployment
+“Deploy to Vercel + Supabase.
+Run debug + security checks.”
+
+Prompt 7 — Analytics
+“Add analytics + event tracking.
+Run debug + security checks.”
+
+MVP PACK 7 — CHROME EXTENSION MVP PACK
+Purpose: Build a monetizable Chrome extension
+Pack Size: 5 prompts
+
+Prompt 1 — Extension Architecture
+“Design a Manifest v3 extension with popup + background + content scripts.
+Run debug + security checks.”
+
+Visualisation Trigger:  
+“Generate a UI mockup prompt for the popup.”
+
+Prompt 2 — Core Feature Build
+“Generate implementation steps for the core feature.
+Run debug + security checks.”
+
+Prompt 3 — Storage
+“Define storage using chrome.storage  + optional Supabase sync.
+Run debug + security checks.”
+
+Prompt 4 — Monetisation
+“Add monetisation: paywall, API key, or subscription.
+Run debug + security checks.”
+
+Prompt 5 — Publishing
+“Provide steps for Chrome Web Store publishing.
+Run debug + security checks.”
+
+MVP PACK 8 — MARKETPLACE MVP PACK
+Purpose: Build a product for Gumroad/Etsy/Shopify
+Pack Size: 4 prompts
+
+Prompt 1 — Product Creation
+“Define the digital product: structure, value, deliverables.
+Run debug + security checks.”
+
+Visualisation Trigger:  
+“Generate a product cover mockup prompt.”
+
+Prompt 2 — Listing Optimization
+“Generate SEO‑optimized product listing copy.
+Run debug + security checks.”
+
+Prompt 3 — Automation
+“Create workflows for auto‑delivery + email onboarding.
+Run debug + security checks.”
+
+Prompt 4 — Launch Plan
+“Provide a 7‑day launch + marketing plan.
+Run debug + security checks.”

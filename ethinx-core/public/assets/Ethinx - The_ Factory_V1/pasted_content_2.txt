@@ -1,0 +1,89 @@
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---           03-Jan-26  1:00 AM         129271 Ethinx — Stitched
+                                                  Deployment Package
+                                                  (canvas Workspace).pdf
+-a---           23-Jan-26 11:46 PM          19577 ETHINX Backend
+                                                  Implementation
+                                                  Summary.md
+-a---           23-Jan-26 11:45 PM           9365 ETHINX Backend.md
+-a---           24-Jan-26  3:50 AM          13217 ETHINX Monitoring
+                                                  Dashboard - Complete
+                                                  Guide_n_nVersion_
+                                                  1.0.0  _nDate_
+                                                  January 24, 2026
+                                                  _nStatus_ ✅
+                                                  PRODUCTION
+                                                  READY_n_n---_n_n## 📋
+                                                  Overview_n_nThe
+                                                  ETHINX Monitoring
+                                                  Dashboard is a
+                                                  high-density,
+                                                  Techno-Brutalist .md
+-a---           24-Jan-26  3:50 AM           7591 ETHINX Monitoring
+                                                  Dashboard_n_nVersion_
+                                                  1.0.0  _nDate_
+                                                  January 24, 2026
+                                                  _nStatus_ ✅
+                                                  PRODUCTION
+                                                  READY_n_n---_n_n## 🎯
+                                                  What is the
+                                                  Monitoring
+                                                  Dashboard__n_nThe
+                                                  ETHINX Monitoring
+                                                  Dashboard is a
+                                                  high-density,
+                                                  Techno-Br.md
+-a---           02-Jan-26 10:05 PM         170892 ETHINX Phase 3 V1.txt
+-a---           23-Jan-26 11:51 PM          17185 ethinx_architecture
+                                                  (1).md
+-a---           23-Jan-26  9:40 PM          17185 ethinx_architecture.md
+-a---           24-Jan-26 12:08 AM         225119 ETHINX_Backend_-_Phase
+                                                  _2_Updates (1).pdf
+-a---           24-Jan-26 12:08 AM         225119 ETHINX_Backend_-_Phase
+                                                  _2_Updates.pdf
+-a---           23-Jan-26 11:46 PM         153655 ETHINX_Backend.pdf
+-a---           17-Feb-26  5:41 PM           4846 ETHINX_BOOTFILE.md
+-a---           07-Feb-26  4:32 AM          13046 ethinx_control_archite
+                                                  cture.html
+-a---           23-Jan-26 11:51 PM          15570 ethinx_database_api
+                                                  (1).md
+-a---           23-Jan-26  9:40 PM          25913 ethinx_database_api.md
+-a---           01-Mar-26  2:44 PM          11443 ethinx_facebook_deploy
+                                                  .py
+-a---           24-Jan-26  2:17 AM         240895 ETHINX_Frontend_-_Next
+                                                  .js_15_Dashboard.pdf
+-a---           26-Jan-26 10:52 PM           1645 ETHINX_Knowledge_Base.
+                                                  md.txt
+-a---           10-Jan-26  7:29 AM           3240 ethinx_lovable_site.zi
+                                                  p
+-a---           23-Jan-26  9:39 PM          53866 ETHINX_MASTER_V1.md
+-a---           05-Feb-26  7:09 AM          19690 ETHINX_REACT_STRIPE_CH
+                                                  ECKOUT_INTEGRATION_GUI
+                                                  DE.docx
+-a---           31-Jan-26  7:18 PM        1770397 Ethinx_reveal_flow_202
+                                                  601311918_98a0o.mp4
+-a---           23-Jan-26  9:40 PM           3475 ethinx_revenue_logic.m
+                                                  d
+-a---           03-Jan-26  1:06 AM          41761 ethinx_stitched_deploy
+                                                  ment_package_canvas_wo
+                                                  rkspace (1).md
+-a---           03-Jan-26  1:03 AM          41761 ethinx_stitched_deploy
+                                                  ment_package_canvas_wo
+                                                  rkspace.md
+-a---           03-Mar-26 12:45 PM         241628 ETHINX_VSA_Strategic_P
+                                                  itch.pptx
+-a---           23-Mar-26  6:21 PM          57497 ETHINX_XPULSE_Intellig
+                                                  encePack.pdf
+-a---           28-Mar-26  1:22 PM           2344 ethinx-58a59a7f2979.js
+                                                  on
+-a---           21-Feb-26  6:20 AM           2344 ethinx-7a2460dbb694.js
+                                                  on
+-a---           30-Jan-26 10:09 PM        2157880 ethinx-brand-5-winning
+                                                  .png
+-a---           09-Mar-26 12:53 PM          30356 ETHINX-ClaudeCode-Mani
+                                                  fest-Prompt.md
+-a---           03-Jan-26  4:39 AM           1548 ethinx.solutions.txt
+
+PS C:\Windows\System32>

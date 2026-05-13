@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  cromenix-app:
+    image: node:22-alpine
+    container_name: cromenix-app
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - cromenix_data:/app/data
+    ports:
+      - "3020:3020"
+    environment:
+      - NODE_ENV=production
+      - PORT=3020
+      - TERRITORY_NAME=Cromenix
+      - TERRITORY_ID=cromenix
+      - BRAND_PRIMARY=#C9A84C
+      - BRAND_SECONDARY=#E8C96A
+      - REVENUE_SPLIT_OPERATOR=70
+      - REVENUE_SPLIT_CORE=30
+    command: node server.js
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3020/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  cromenix_data:
+    driver: local

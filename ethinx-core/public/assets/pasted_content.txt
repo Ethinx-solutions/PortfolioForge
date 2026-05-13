@@ -1,0 +1,58 @@
+
+Audit‑driven: If you can’t see it, you can’t trust it.
+
+Modular: No monoliths, no hidden coupling.
+
+Sovereign: You should never feel locked out of your own system.
+
+COGNITIVE ERGONOMICS
+Body:  
+ETHINX is designed to match how humans scan, prioritize, and decide. Layouts, flows, and signals are tuned for real cognitive load, not aesthetic screenshots.
+
+EMOTIONAL CLARITY
+Body:  
+Good systems reduce anxiety. ETHINX aims to make your operational world feel calmer, not noisier.
+
+ZERO AMBIGUITY
+Body:  
+Buttons say what they do. Tiles show what they mean. Workflows are explicit. ETHINX rejects vague labels and hidden behavior.
+
+AUDIT‑DRIVEN RIGOR
+Body:  
+Every serious system needs a paper trail. ETHINX bakes that into its core.
+
+HUMAN‑CENTERED DESIGN
+Body:  
+At the end of every workflow is a human outcome. ETHINX never forgets that.
+
+3.11 ABOUT /about
+FOUNDER STORY
+Title: Built by a founder who hates ambiguity
+Body:  
+ETHINX was born from the frustration of juggling tools, scripts, and half‑finished systems. Instead of another app, it became an ecosystem—a way to see, shape, and steer everything from one place.
+
+ETHINX ORIGIN
+Body:  
+What started as a personal cockpit for one operator evolved into a generalizable architecture for anyone who thinks in systems.
+
+MISSION
+Body:  
+To give individuals and small teams the kind of operational clarity and automation power usually reserved for large organizations.
+
+VISION
+Body:  
+A world where building and running a business feels like flying a well‑designed craft—not patching a leaking boat.
+
+FUTURE OF AUTOMATION
+Body:  
+ETHINX is a step toward automation that is sovereign, legible, and emotionally sane.
+
+3.12 CONTACT /contact
+CONTACT BLOCKS
+Discord: Join the operations room where ETHINX evolves in public.
+
+Newsletter: Receive distilled updates on new subsystems, archetypes, and workflows.
+
+GitHub: Explore the code, architecture, and issues as they emerge.
+
+Early access: Put your name down to be among the first to operate from the Sovereign Cockpit.

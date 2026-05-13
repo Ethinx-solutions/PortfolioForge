@@ -1,0 +1,38 @@
+empire-os-relay  ethinx_core  ethinx-marketing  ethinx_solutions  html  portfolios
+│ script path       │ /root/ethinx/vega/shell/bridge.js     │
+│ script args       │ N/A                                   │
+│ script id         │ 0                                     │
+│ exec cwd          │ /root/ethinx/vega/shell               │
+│ exec mode         │ fork_mode                             │
+root@ubuntu-8gb-nbg1-1:~#
+
+
+Instruction for Manus: The Vegas Blueprint
+Label: Vegas Territory Provisioning Instruction for Max: "Cromenix is verified. You are now authorized to build the Vegas Territory from the ground up. Use the following architectural specs to finalize Phase 4."
+1. What is Vegas?
+Type: Vegas is a Node.js SaaS Territory, structurally identical to Cromenix but logically isolated.
+Stack: It uses the same Dockerized Node.js/SaaS stack as Cromenix, anchored to the verified Supabase instance (kgaceqsoinqyfpebewjo).
+Port Mapping: Vegas must run on Internal Port 3010 (Cromenix is on 3020).
+Mission: While Cromenix handles Infrastructure/SaaS content, Vegas serves as the Revenue/Affiliate Bridge (Vega-Bridge) territory.
+2. DNS & Nginx Directive
+Cloudflare: "Provision vegas.ethinx.solutions as a CNAME pointing to the Hetzner IP 91.99.162.243 using the NEW sanitized API token provided by the Commander."
+Nginx: "Create the virtual host at /etc/nginx/sites-available/vegas to reverse proxy traffic from vegas.ethinx.solutions to localhost:3010. Secure it with a Certbot/SSL certificate immediately."
+3. Initial Server Diagnostic "Before writing the configs, execute the diagnostic command to map the current file structure and PM2 states for the Vega-Bridge component."
+TERRITORY PROVISIONING: VEGAS (PHASE 4)
+Label: Vegas Sovereign Deployment Instruction for Max: "Execute the following 4-step sequence to provision the Vegas Territory. All infrastructure must reflect the new, rotated credentials and the EthinX-OS-Manager standards."
+Step 1: Cloudflare DNS Provisioning
+"Use the NEW Cloudflare API Token to create a CNAME record for vegas.ethinx.solutions pointing to the Hetzner IP 91.99.162.243. Verify DNS propagation before moving to Nginx."
+Step 2: Nginx & SSL Hardening
+"Create the virtual host configuration at /etc/nginx/sites-available/vegas. Configure it to reverse proxy traffic from vegas.ethinx.solutions to localhost:3010. Run certbot immediately to secure the domain with an SSL certificate."
+Step 3: Application Scaffolding & Env Injection
+"Provision the Vegas directory at /var/www/vegas-saas. Inject the new rotated secrets into the .env file:"
+SUPABASE_URL: https://kgaceqsoinqyfpebewjo.supabase.co
+SUPABASE_SERVICE_KEY: [USE NEW ROTATED KEY]
+STRIPE_WEBHOOK_SECRET: [USE NEW ROTATED SECRET]
+PORT: 3010
+Step 4: The "Sovereign" Launch
+"Build and launch the Vegas Docker stack. Map internal port 3010 to the host. Once live, register the vega-bridge process in PM2 for real-time monitoring and log rotation."
+Final Triage Checklist
+Local System: Sanitized and sterile.
+Server Access: Password auth is temporarily active (or you are using your key).
+Infrastructure: Firewall gaps are closed (Ports 22, 80, 443 only).

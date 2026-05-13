@@ -1,0 +1,161 @@
+passwd: password updated successfully
+root@ubuntu-8gb-nbg1-1:~# ufw delete allow 3000/tcp
+Rule deleted
+Rule deleted (v6)
+root@ubuntu-8gb-nbg1-1:~# ufw delete allow 3001/tcp
+Rule deleted
+Rule deleted (v6)
+root@ubuntu-8gb-nbg1-1:~# ufw delete allow 3005/tcp
+Rule deleted
+Rule deleted (v6)
+root@ubuntu-8gb-nbg1-1:~# ufw delete allow 5005/tcp
+Could not delete non-existent rule
+Could not delete non-existent rule (v6)
+root@ubuntu-8gb-nbg1-1:~# ufw delete allow 8001/tcp
+Rule deleted
+Rule deleted (v6)
+root@ubuntu-8gb-nbg1-1:~# ufw delete allow 8080/tcp
+Rule deleted
+Rule deleted (v6)
+root@ubuntu-8gb-nbg1-1:~# ufw delete allow 3002/tcp
+Rule deleted
+Rule deleted (v6)
+root@ubuntu-8gb-nbg1-1:~# ufw status verbose
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), deny (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+Anywhere                   REJECT IN   46.8.70.162                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   62.210.125.36              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   66.154.119.88              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   103.76.120.225             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   223.17.5.126               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   167.172.120.246            # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   62.60.244.109              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   178.16.54.95               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   80.94.92.186               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.121.112               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   101.100.194.199            # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   92.118.39.62               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   114.8.146.58               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   92.118.39.63               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   183.110.63.196             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   103.176.20.115             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   45.207.221.76              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   130.250.191.204            # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   119.203.251.187            # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   197.5.145.8                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   162.223.91.130             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   45.148.10.151              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.121.25                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   83.111.76.195              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   27.79.190.121              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.177               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.188               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   45.148.10.141              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   92.207.4.157               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   80.94.92.182               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.121.50                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.121.69                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   47.243.150.134             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   176.176.81.250             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.192               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   201.77.124.248             # by Fail2Ban after 5 attempts against sshd
+Anywhere                   REJECT IN   195.178.110.218            # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.121.86                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.196               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.189               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   91.224.92.50               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.195               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.199               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.194               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   45.227.254.170             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   45.148.10.240              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.193               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   45.148.10.157              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   80.94.92.183               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.121.118               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.121.17                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.191               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.197               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.190               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   195.178.110.30             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   45.148.10.147              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   45.148.10.152              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   195.178.110.15             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   103.189.235.176            # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   103.186.1.150              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   201.186.40.161             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.96                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   159.223.94.92              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   13.71.92.229               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   92.118.39.56               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   116.50.179.74              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   207.154.254.44             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   103.143.11.168             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   38.114.121.110             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   14.225.3.79                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   101.36.111.119             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   36.64.68.99                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   5.181.124.62               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   103.191.14.210             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   51.178.114.78              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   34.85.163.94               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   102.88.137.80              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   213.209.159.158            # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   45.17.39.120               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   144.31.137.41              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   80.94.92.171               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   196.0.120.211              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   90.189.123.212             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   92.205.56.196              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   34.78.29.97                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   128.1.38.169               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   196.189.237.92             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   62.169.18.153              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   217.154.167.36             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   134.209.18.188             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   120.62.8.17                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   119.198.156.144            # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   103.72.147.99              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   3.225.10.85                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   77.42.17.13                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   81.192.46.49               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   1.65.137.192               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   190.119.198.81             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   74.94.234.151              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   187.94.255.130             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   200.196.50.91              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   182.180.59.208             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   101.36.122.186             # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   24.232.50.5                # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   172.86.69.116              # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   80.94.92.184               # by Fail2Ban after 3 attempts against sshd
+Anywhere                   REJECT IN   2.57.122.238               # by Fail2Ban after 3 attempts against sshd
+22/tcp (OpenSSH)           ALLOW IN    Anywhere
+80                         ALLOW IN    Anywhere
+443                        ALLOW IN    Anywhere
+5679/tcp                   ALLOW IN    Anywhere
+80/tcp                     ALLOW IN    Anywhere
+3000                       ALLOW IN    Anywhere
+3001                       ALLOW IN    Anywhere
+3005                       ALLOW IN    Anywhere
+80,443/tcp (Nginx Full)    ALLOW IN    Anywhere
+80,443/tcp                 ALLOW IN    Anywhere
+3021/tcp                   ALLOW IN    Anywhere
+22/tcp (OpenSSH (v6))      ALLOW IN    Anywhere (v6)
+80 (v6)                    ALLOW IN    Anywhere (v6)
+443 (v6)                   ALLOW IN    Anywhere (v6)
+5679/tcp (v6)              ALLOW IN    Anywhere (v6)
+80/tcp (v6)                ALLOW IN    Anywhere (v6)
+3000 (v6)                  ALLOW IN    Anywhere (v6)
+3001 (v6)                  ALLOW IN    Anywhere (v6)
+3005 (v6)                  ALLOW IN    Anywhere (v6)
+80,443/tcp (Nginx Full (v6)) ALLOW IN    Anywhere (v6)
+80,443/tcp (v6)            ALLOW IN    Anywhere (v6)
+3021/tcp (v6)              ALLOW IN    Anywhere (v6)
+
+root@ubuntu-8gb-nbg1-1:~#

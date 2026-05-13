@@ -1,0 +1,65 @@
+Chrome extension:
+
+Popup UI → calls backend via HTTPS
+
+Local cache for:
+
+last used packs
+
+last project context
+
+No direct Stripe calls from extension; always via backend.
+
+Mobile app:
+
+Uses same API as web
+
+Local SQLite for offline history
+
+Sync on reconnect
+
+Push notifications for:
+
+credit low
+
+execution finished
+
+new pack recommendations
+
+8. Dev guardrails
+For any external dev team:
+
+Do not:
+
+Change pack definitions without versioning
+
+Bypass credit checks
+
+Call LLMs directly from frontend
+
+Store API keys in client code
+
+Do:
+
+Treat packs as immutable content with version tags
+
+Keep Composer logic in one service
+
+Log all executions with user + project + pack IDs
+
+Keep a feature flag system for new flows
+
+9. Handover checklist
+Before you hand this to a team, you should have:
+
+✅ Finalised pack metadata (IDs, categories, tags)
+
+✅ Chosen backend stack (Supabase vs custom Postgres)
+
+✅ Chosen auth provider
+
+✅ Stripe account + products + prices defined
+
+✅ Domain + DNS ready
+
+✅ Repo structure agreed (mono‑repo vs split)

@@ -1,0 +1,146 @@
+.code-block-container {
+  background: #1e1e1e;
+  border: 2px solid #D4AF37;
+  border-radius: 0px;
+  overflow: hidden;
+  margin: 20px 0;
+  font-family: 'Courier New', monospace;
+}
+
+.code-block-title {
+  background: rgba(212, 175, 55, 0.1);
+  color: #D4AF37;
+  padding: 10px 15px;
+  font-size: 12px;
+  font-weight: bold;
+  border-bottom: 1px solid #D4AF37;
+  letter-spacing: 1px;
+  font-family: 'Orbitron', monospace;
+}
+
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background: #252525;
+  border-bottom: 1px solid #D4AF37;
+}
+
+.code-language {
+  font-size: 12px;
+  color: #D4AF37;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.copy-button {
+  background: #D4AF37;
+  color: #000000;
+  border: none;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 0px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.copy-button:hover {
+  background: #e6c547;
+}
+
+.copy-button.copied {
+  background: #00ff00;
+  color: #000000;
+}
+
+.code-block-pre {
+  margin: 0;
+  padding: 15px;
+  overflow-x: auto;
+  background: #1e1e1e;
+}
+
+.code-block-pre code {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #d4d4d4;
+}
+
+/* Syntax Highlighting */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #6a9955;
+}
+
+.token.punctuation {
+  color: #d4d4d4;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #b5cea8;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #ce9178;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #d4d4d4;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #c586c0;
+}
+
+.token.function,
+.token.class-name {
+  color: #dcdcaa;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #9cdcfe;
+}
+
+/* Scrollbar Styling */
+.code-block-pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+.code-block-pre::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+.code-block-pre::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 0px;
+}
+
+.code-block-pre::-webkit-scrollbar-thumb:hover {
+  background: #e6c547;
+}

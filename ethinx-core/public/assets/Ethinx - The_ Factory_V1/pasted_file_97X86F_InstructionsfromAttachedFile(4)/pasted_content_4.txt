@@ -1,0 +1,349 @@
+⭐ PACK CATEGORY 2 — MONETISATION PACKS
+(8 packs, each with prompts, monetisation logic, automation hooks, scaling, tech bias, and visualisation triggers)
+
+MONETISATION PACK 1 — SUBSCRIPTION MONETISATION PACK
+Purpose: Build recurring revenue
+Pack Size: 5 prompts
+
+Prompt 1 — Subscription Model Design
+“Design a subscription model for [ASSET]. Include pricing tiers, value ladder, feature gating, and churn‑reduction strategies.
+Run debug + security checks.”
+
+Prompt 2 — Billing Integration
+“Provide step‑by‑step instructions for implementing Stripe/Paddle subscription billing.
+Run debug + security checks.”
+
+Prompt 3 — Onboarding + Retention Flow
+“Create an onboarding + retention flow including email sequences, in‑app nudges, and habit loops.
+Run debug + security checks.”
+
+Prompt 4 — Upsell Triggers
+“Define upsell triggers based on usage, milestones, or feature unlocks.
+Run debug + security checks.”
+
+Prompt 5 — Visualisation
+“Generate a UI mockup prompt for the pricing page.”
+
+MONETISATION PACK 2 — PASSIVE INCOME PACK
+Purpose: Maximise automation + recurring revenue
+Pack Size: 6 prompts
+
+Prompt 1 — Passive Income Model
+“Design a passive income model for [ASSET] using automation, evergreen content, and recurring revenue.
+Run debug + security checks.”
+
+Prompt 2 — Evergreen Funnel
+“Create an evergreen funnel including lead magnet → nurture → conversion → upsell.
+Run debug + security checks.”
+
+Prompt 3 — Automation Layer
+“Define automation for delivery, onboarding, content refresh, and reporting.
+Run debug + security checks.”
+
+Prompt 4 — SEO Engine
+“Build an SEO strategy for long‑term passive traffic.
+Run debug + security checks.”
+
+Prompt 5 — Affiliate Layer
+“Add affiliate monetisation to increase passive revenue.
+Run debug + security checks.”
+
+Prompt 6 — Visualisation
+“Generate a visual prompt for the funnel layout.”
+
+MONETISATION PACK 3 — AFFILIATE ENGINE PACK
+Purpose: Build an affiliate‑driven asset
+Pack Size: 5 prompts
+
+Prompt 1 — Affiliate Strategy
+“Define affiliate networks, product categories, and commission optimisation.
+Run debug + security checks.”
+
+Prompt 2 — Content Engine
+“Create a content system optimised for affiliate conversions.
+Run debug + security checks.”
+
+Prompt 3 — Tracking + Analytics
+“Set up affiliate link tracking, analytics, and reporting.
+Run debug + security checks.”
+
+Prompt 4 — Funnel Design
+“Design an affiliate funnel with CTAs, comparison tables, and trust signals.
+Run debug + security checks.”
+
+Prompt 5 — Visualisation
+“Generate a UI mockup prompt for an affiliate comparison page.”
+
+MONETISATION PACK 4 — FREEMIUM → UPSELL PACK
+Purpose: Convert free users to paid
+Pack Size: 5 prompts
+
+Prompt 1 — Free Tier Design
+“Define the free tier: limits, value, and upgrade incentives.
+Run debug + security checks.”
+
+Prompt 2 — Premium Tier Design
+“Define premium features, pricing, and value proposition.
+Run debug + security checks.”
+
+Prompt 3 — Upgrade Triggers
+“Create upgrade triggers based on usage, time, or feature access.
+Run debug + security checks.”
+
+Prompt 4 — Email + In‑App Upsell
+“Generate upsell messaging for email + in‑app.
+Run debug + security checks.”
+
+Prompt 5 — Visualisation
+“Generate a UI mockup prompt for the upgrade modal.”
+
+MONETISATION PACK 5 — ONE‑TIME PRODUCT PACK
+Purpose: Sell digital products
+Pack Size: 4 prompts
+
+Prompt 1 — Product Definition
+“Define the digital product, deliverables, and value.
+Run debug + security checks.”
+
+Prompt 2 — Pricing Strategy
+“Create a pricing strategy including bundles, tiers, and launch pricing.
+Run debug + security checks.”
+
+Prompt 3 — Launch Funnel
+“Design a launch funnel with email sequences and social content.
+Run debug + security checks.”
+
+Prompt 4 — Visualisation
+“Generate a product cover mockup prompt.”
+
+MONETISATION PACK 6 — AD‑REVENUE PACK
+Purpose: Build traffic → monetise with ads
+Pack Size: 5 prompts
+
+Prompt 1 — Traffic Strategy
+“Define SEO + social strategy for high‑volume traffic.
+Run debug + security checks.”
+
+Prompt 2 — Content Engine
+“Create a content system optimised for ad RPM.
+Run debug + security checks.”
+
+Prompt 3 — Ad Network Setup
+“Provide steps for AdSense/Mediavine/AdThrive integration.
+Run debug + security checks.”
+
+Prompt 4 — RPM Optimisation
+“Define optimisation strategies for increasing ad revenue.
+Run debug + security checks.”
+
+Prompt 5 — Visualisation
+“Generate a UI mockup prompt for an ad‑optimised article layout.”
+
+MONETISATION PACK 7 — HIGH‑TICKET PACK
+Purpose: Sell premium offers ($500+)
+Pack Size: 4 prompts
+
+Prompt 1 — Offer Design
+“Define the high‑ticket offer, value stack, and transformation.
+Run debug + security checks.”
+
+Prompt 2 — Funnel Design
+“Create a high‑ticket funnel with VSL, application, and call booking.
+Run debug + security checks.”
+
+Prompt 3 — Authority Engine
+“Generate authority‑building content + social proof.
+Run debug + security checks.”
+
+Prompt 4 — Visualisation
+“Generate a UI mockup prompt for the high‑ticket landing page.”
+
+MONETISATION PACK 8 — MARKETPLACE MONETISATION PACK
+Purpose: Optimise for Etsy/Gumroad/Shopify
+Pack Size: 4 prompts
+
+Prompt 1 — Listing Optimisation
+“Create SEO‑optimised listing copy.
+Run debug + security checks.”
+
+Prompt 2 — Pricing + Bundles
+“Define pricing, bundles, and upsells.
+Run debug + security checks.”
+
+Prompt 3 — Automation
+“Create workflows for auto‑delivery + email onboarding.
+Run debug + security checks.”
+
+Prompt 4 — Visualisation
+“Generate a product cover mockup prompt.”
+
+⭐ PACK CATEGORY 3 — AUTOMATION PACKS
+(8 packs, same structure)
+
+AUTOMATION PACK 1 — ZAPIER AUTOMATION PACK
+Purpose: Build automated workflows
+Pack Size: 5 prompts
+
+Prompt 1 — Workflow Mapping
+“Map the automation workflow for [ASSET].
+Run debug + security checks.”
+
+Prompt 2 — Trigger Design
+“Define Zapier triggers + filters.
+Run debug + security checks.”
+
+Prompt 3 — Multi‑Step Automation
+“Create multi‑step workflows with branching logic.
+Run debug + security checks.”
+
+Prompt 4 — Error Handling
+“Define error handling + fallback logic.
+Run debug + security checks.”
+
+Prompt 5 — Visualisation
+“Generate a flowchart mockup prompt.”
+
+AUTOMATION PACK 2 — MAKE.COM AUTOMATION PACK
+Purpose: Visual automation for complex workflows
+Pack Size: 5 prompts
+
+Prompt 1 — Scenario Design
+“Design Make.com  scenarios with routers + data mapping.
+Run debug + security checks.”
+
+Prompt 2 — Scheduling
+“Define scheduled tasks + triggers.
+Run debug + security checks.”
+
+Prompt 3 — API Integrations
+“Create API‑based modules for advanced automation.
+Run debug + security checks.”
+
+Prompt 4 — Monitoring
+“Define monitoring + alerting.
+Run debug + security checks.”
+
+Prompt 5 — Visualisation
+“Generate a scenario diagram prompt.”
+
+AUTOMATION PACK 3 — AI AGENT PACK
+Purpose: Build autonomous AI agents
+Pack Size: 6 prompts
+
+Prompt 1 — Agent Role Definition
+“Define the agent’s role, goals, and constraints.
+Run debug + security checks.”
+
+Prompt 2 — Memory + Tools
+“Design memory, retrieval, and tool usage.
+Run debug + security checks.”
+
+Prompt 3 — Workflow Logic
+“Create agent workflows with decision trees.
+Run debug + security checks.”
+
+Prompt 4 — Error Handling
+“Define fallback logic + safety constraints.
+Run debug + security checks.”
+
+Prompt 5 — Monetisation
+“Add monetisation to the agent (subscription, credits).
+Run debug + security checks.”
+
+Prompt 6 — Visualisation
+“Generate a UI mockup prompt for the agent interface.”
+
+AUTOMATION PACK 4 — AUTO‑EMAIL SEQUENCE PACK
+Purpose: Build onboarding, upsell, re‑engagement sequences
+Pack Size: 4 prompts
+
+Prompt 1 — Sequence Mapping
+“Map onboarding, upsell, and re‑engagement sequences.
+Run debug + security checks.”
+
+Prompt 2 — Email Content
+“Generate email copy for each sequence.
+Run debug + security checks.”
+
+Prompt 3 — Automation Setup
+“Define triggers + delays in Mailchimp/ConvertKit.
+Run debug + security checks.”
+
+Prompt 4 — Visualisation
+“Generate a flowchart mockup prompt.”
+
+AUTOMATION PACK 5 — AUTO‑CONTENT REFRESH PACK
+Purpose: Keep content evergreen
+Pack Size: 4 prompts
+
+Prompt 1 — Content Mapping
+“Identify content requiring periodic refresh.
+Run debug + security checks.”
+
+Prompt 2 — AI Rewrite Logic
+“Define rewrite logic using AI.
+Run debug + security checks.”
+
+Prompt 3 — Scheduling
+“Create scheduled tasks for refresh cycles.
+Run debug + security checks.”
+
+Prompt 4 — Visualisation
+“Generate a content lifecycle diagram prompt.”
+
+AUTOMATION PACK 6 — AUTO‑REPORTING PACK
+Purpose: Automated analytics + KPI dashboards
+Pack Size: 4 prompts
+
+Prompt 1 — KPI Definition
+“Define KPIs + data sources.
+Run debug + security checks.”
+
+Prompt 2 — Data Ingestion
+“Create ingestion workflows.
+Run debug + security checks.”
+
+Prompt 3 — Reporting Logic
+“Generate reporting + alerting logic.
+Run debug + security checks.”
+
+Prompt 4 — Visualisation
+“Generate a dashboard mockup prompt.”
+
+AUTOMATION PACK 7 — AUTO‑LEAD QUALIFICATION PACK
+Purpose: Score and route leads automatically
+Pack Size: 4 prompts
+
+Prompt 1 — Scoring Model
+“Define lead scoring logic.
+Run debug + security checks.”
+
+Prompt 2 — Segmentation
+“Create segmentation rules.
+Run debug + security checks.”
+
+Prompt 3 — Routing Logic
+“Define routing workflows.
+Run debug + security checks.”
+
+Prompt 4 — Visualisation
+“Generate a lead flow diagram prompt.”
+
+AUTOMATION PACK 8 — AUTO‑CUSTOMER SUPPORT PACK
+Purpose: AI + automation for support
+Pack Size: 4 prompts
+
+Prompt 1 — Support Workflow
+“Design support workflows with chatbot + ticket routing.
+Run debug + security checks.”
+
+Prompt 2 — Response Templates
+“Generate canned responses + escalation logic.
+Run debug + security checks.”
+
+Prompt 3 — Automation Layer
+“Create automation for routing, tagging, and follow‑up.
+Run debug + security checks.”
+
+Prompt 4 — Visualisation
+“Generate a support dashboard mockup prompt.”

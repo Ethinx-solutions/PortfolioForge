@@ -1,0 +1,311 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  /* ETHINX Canonical Color Palette */
+  /* PRIMARY: Gold #C9A84C - used for CTAs, highlights, key text, borders */
+  /* BACKGROUNDS: Black Core #000000, Dark #0A0A0A, Card #131313, Card 2 #1A1A1A */
+  /* TEXT: Primary #F2F2F2, Secondary #C8C8C8, Muted #888888 */
+  /* STATUS: Signal Green #00FF88 - minimal use only */
+  
+  --primary: #C9A84C;
+  --primary-foreground: #000000;
+  --sidebar-primary: #C9A84C;
+  --sidebar-primary-foreground: #000000;
+  --chart-1: #C9A84C;
+  --chart-2: #E8C96A;
+  --chart-3: #D4AF37;
+  --chart-4: #8A6830;
+  --chart-5: #1A1A1A;
+  --radius: 0.5rem;
+  --background: #0A0A0A;
+  --foreground: #F2F2F2;
+  --card: #131313;
+  --card-foreground: #F2F2F2;
+  --popover: #1A1A1A;
+  --popover-foreground: #F2F2F2;
+  --secondary: #1A1A1A;
+  --secondary-foreground: #F2F2F2;
+  --muted: #888888;
+  --muted-foreground: #C8C8C8;
+  --accent: #C9A84C;
+  --accent-foreground: #000000;
+  --destructive: #FF4444;
+  --destructive-foreground: #F2F2F2;
+  --border: #252525;
+  --input: #1A1A1A;
+  --ring: #C9A84C;
+  --sidebar: #0A0A0A;
+  --sidebar-foreground: #F2F2F2;
+  --sidebar-accent: #C9A84C;
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: #333333;
+  --sidebar-ring: #C9A84C;
+}
+
+.dark {
+  /* ETHINX Dark Mode (Default) - GOLD primary throughout */
+  --primary: #C9A84C;
+  --primary-foreground: #000000;
+  --sidebar-primary: #C9A84C;
+  --sidebar-primary-foreground: #000000;
+  --background: #0A0A0A;
+  --foreground: #F2F2F2;
+  --card: #131313;
+  --card-foreground: #F2F2F2;
+  --popover: #1A1A1A;
+  --popover-foreground: #F2F2F2;
+  --secondary: #1A1A1A;
+  --secondary-foreground: #F2F2F2;
+  --muted: #888888;
+  --muted-foreground: #C8C8C8;
+  --accent: #C9A84C;
+  --accent-foreground: #000000;
+  --destructive: #FF4444;
+  --destructive-foreground: #F2F2F2;
+  --border: #252525;
+  --input: #1A1A1A;
+  --ring: #C9A84C;
+  --chart-1: #C9A84C;
+  --chart-2: #E8C96A;
+  --chart-3: #D4AF37;
+  --chart-4: #8A6830;
+  --chart-5: #1A1A1A;
+  --sidebar: #0A0A0A;
+  --sidebar-foreground: #F2F2F2;
+  --sidebar-accent: #C9A84C;
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: #333333;
+  --sidebar-ring: #C9A84C;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "DM Mono", monospace;
+    font-weight: 400;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+  }
+  h1 {
+    @apply text-5xl leading-tight;
+    font-weight: 900;
+  }
+  h2 {
+    @apply text-4xl leading-snug;
+    font-weight: 900;
+  }
+  h3 {
+    @apply text-3xl leading-snug;
+    font-weight: 900;
+  }
+  h4, h5, h6 {
+    font-weight: 900;
+  }
+  p, span, div, a, button {
+    font-family: "DM Mono", monospace;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  /**
+   * Custom container utility that centers content and adds responsive padding.
+   */
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* ETHINX Design System Components */
+  .accent-bar {
+    @apply h-1 bg-accent;
+  }
+
+  .section-divider {
+    @apply border-t border-border;
+  }
+
+  .status-badge {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded text-sm font-medium;
+  }
+
+  /* Status indicators - green only for active/success */
+  .status-active {
+    @apply bg-green-900/30 text-green-400 border border-green-700;
+  }
+
+  .status-stable {
+    @apply bg-green-900/30 text-green-400 border border-green-700;
+  }
+
+  .status-attention {
+    @apply bg-yellow-900/30 text-yellow-300 border border-yellow-700;
+  }
+
+  .status-action {
+    @apply bg-red-900/30 text-red-300 border border-red-700;
+  }
+
+  /* Primary CTA - GOLD background */
+  .cta-primary {
+    @apply px-6 py-3 bg-accent text-accent-foreground font-bold rounded transition-all hover:shadow-lg hover:scale-105 border border-accent;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+  }
+
+  /* Secondary CTA - GOLD border */
+  .cta-secondary {
+    @apply px-6 py-3 border-2 border-accent text-accent font-bold rounded transition-all hover:bg-accent hover:text-accent-foreground;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+  }
+
+  /* Cockpit tile styling */
+  .cockpit-tile {
+    @apply bg-card border border-border rounded-lg p-6 transition-all hover:border-accent hover:shadow-lg;
+  }
+
+  .cockpit-tile-header {
+    @apply flex items-center justify-between mb-4;
+  }
+
+  .cockpit-tile-title {
+    @apply text-lg font-bold text-foreground;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+  }
+
+  .cockpit-tile-value {
+    @apply text-3xl font-bold text-accent;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+  }
+
+  .cockpit-tile-label {
+    @apply text-sm text-muted;
+  }
+
+  /* Borders and accents - GOLD */
+  .gold-border {
+    @apply border border-accent;
+  }
+
+  .gold-border-top {
+    @apply border-t-2 border-accent;
+  }
+
+  .gold-text {
+    @apply text-accent;
+  }
+
+  .gold-bg {
+    @apply bg-accent/10;
+  }
+
+  /* TDog floating animations */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes float-delayed {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float-delayed 3.5s ease-in-out infinite 0.5s;
+  }
+}

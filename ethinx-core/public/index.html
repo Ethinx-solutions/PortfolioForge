@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ETHINX — Command Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+  <style>
+    /* ── TDOG ANIMATIONS ─────────────────── */
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    @keyframes glow-pulse { 0%,100%{filter:drop-shadow(0 0 6px rgba(0,234,255,0.4))} 50%{filter:drop-shadow(0 0 18px rgba(0,234,255,0.8))} }
+    @keyframes gold-glow { 0%,100%{filter:drop-shadow(0 0 6px rgba(255,170,0,0.3))} 50%{filter:drop-shadow(0 0 16px rgba(255,170,0,0.7))} }
+    @keyframes slide-in-right { 0%{transform:translateX(40px);opacity:0} 100%{transform:translateX(0);opacity:1} }
+    @keyframes slide-in-up { 0%{transform:translateY(20px);opacity:0} 100%{transform:translateY(0);opacity:1} }
+    @keyframes spin-slow { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+    @keyframes flicker { 0%,100%{opacity:1} 92%{opacity:1} 93%{opacity:0.3} 94%{opacity:1} 96%{opacity:0.5} 97%{opacity:1} }
+    @keyframes power-up { 0%{transform:scale(0.8);opacity:0;filter:brightness(2)} 60%{transform:scale(1.05);opacity:1;filter:brightness(1.3)} 100%{transform:scale(1);opacity:1;filter:brightness(1)} }
+    @keyframes action-fly { 0%{transform:translate(-20px,10px) rotate(-5deg);opacity:0.7} 50%{transform:translate(5px,-5px) rotate(2deg);opacity:1} 100%{transform:translate(0,0) rotate(0deg);opacity:1} }
+    .anim-float { animation: float 3s ease-in-out infinite; }
+    .anim-glow { animation: glow-pulse 2s ease-in-out infinite; }
+    .anim-gold { animation: gold-glow 2.5s ease-in-out infinite; }
+    .anim-slide-r { animation: slide-in-right 0.6s ease-out; }
+    .anim-slide-u { animation: slide-in-up 0.5s ease-out; }
+    .anim-flicker { animation: flicker 4s infinite; }
+    .anim-power { animation: power-up 0.8s ease-out; }
+    .anim-fly { animation: action-fly 1s ease-out; }
+
+    .tdog-mascot { border-radius: 4px; object-fit: contain; image-rendering: auto; }
+    .tdog-sidebar-logo { width: 40px; height: 40px; border-radius: 50%; border: 2px solid rgba(255,170,0,0.5); margin: 0 auto 8px; display: block; animation: gold-glow 2.5s ease-in-out infinite; }
+    .tdog-topbar-mascot { width: 28px; height: 28px; border-radius: 4px; animation: float 3s ease-in-out infinite; cursor: pointer; transition: transform 0.2s; }
+    .tdog-topbar-mascot:hover { transform: scale(1.3); }
+    .tdog-hero { width: 120px; height: 120px; border-radius: 8px; animation: power-up 0.8s ease-out, gold-glow 2.5s ease-in-out infinite 0.8s; }
+    .tdog-action { width: 80px; height: 80px; animation: action-fly 1s ease-out, float 3s ease-in-out infinite 1s; }
+    .tdog-pixel { width: 48px; height: 48px; image-rendering: pixelated; animation: flicker 4s infinite; }
+    .tdog-badge { width: 20px; height: 20px; border-radius: 50%; border: 1px solid rgba(255,170,0,0.4); vertical-align: middle; margin-right: 6px; }
+
+    .hero-banner { display: flex; align-items: center; gap: 20px; padding: 20px; background: linear-gradient(135deg, var(--surface2), var(--surface)); border: 1px solid var(--border); border-radius: 4px; grid-column: span 12; animation: slide-in-up 0.5s ease-out; }
+    .hero-text h2 { font-size: 18px; font-weight: 700; color: var(--amber); margin-bottom: 4px; }
+    .hero-text p { font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+    .hero-accent { color: var(--cyan); font-weight: 600; }
+
+    .mascot-corner { position: fixed; bottom: 16px; right: 16px; z-index: 100; cursor: pointer; transition: transform 0.3s; }
+    .mascot-corner:hover { transform: scale(1.15) rotate(5deg); }
+    .mascot-corner img { width: 56px; height: 56px; border-radius: 50%; border: 2px solid rgba(255,170,0,0.5); animation: gold-glow 2.5s ease-in-out infinite, float 3s ease-in-out infinite; }
+
+    .page-enter { animation: slide-in-up 0.3s ease-out; }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0b0f14; --surface: #0f1319; --surface2: #151b24; --surface3: #1a2230;
+      --border: #1c2a3a; --border-light: #243447;
+      --text: #e2e8f0; --text-dim: #5a6a7e; --text-muted: #3a4a5e;
+      --cyan: #00eaff; --cyan-dim: rgba(0,234,255,0.15); --cyan-glow: rgba(0,234,255,0.3);
+      --green: #00ff88; --green-dim: rgba(0,255,136,0.15);
+      --red: #ff4466; --red-dim: rgba(255,68,102,0.15);
+      --purple: #8b5cf6; --purple-dim: rgba(139,92,246,0.15);
+      --amber: #ffaa00; --amber-dim: rgba(255,170,0,0.15);
+      --gray: #64748b;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.4; overflow: hidden; height: 100vh; width: 100vw; max-width: 100vw; }
+    .app { display: grid; grid-template-columns: 200px minmax(0, 1fr); grid-template-rows: 48px 1fr; height: 100vh; width: 100%; overflow: hidden; }
+
+    /* TOPBAR */
+    .topbar { grid-column: 1/-1; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: var(--surface); border-bottom: 1px solid var(--border); z-index: 10; }
+    .topbar-logo { font-size: 16px; font-weight: 700; letter-spacing: 4px; color: var(--cyan); text-shadow: 0 0 20px var(--cyan-glow); }
+    .topbar-center { display: flex; align-items: center; gap: 8px; }
+    .ws-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .ws-dot.live { background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2s infinite; }
+    .ws-dot.dead { background: var(--red); box-shadow: 0 0 8px var(--red); }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    .ws-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .topbar-time { font-size: 13px; font-weight: 500; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+    .topbar-user { width: 28px; height: 28px; border-radius: 4px; background: var(--surface3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+    .topbar-user svg { width: 14px; height: 14px; stroke: var(--text-dim); fill: none; stroke-width: 1.5; }
+
+    /* SIDEBAR */
+    .sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 16px 0; display: flex; flex-direction: column; gap: 2px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; cursor: pointer; transition: all 0.15s; border-left: 2px solid transparent; color: var(--text-dim); font-size: 12px; }
+    .nav-item:hover { color: var(--text); background: var(--surface2); }
+    .nav-item.active { color: var(--cyan); border-left-color: var(--cyan); background: var(--cyan-dim); font-weight: 500; }
+    .nav-item svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+    /* MAIN */
+    .main { padding: 16px; overflow-y: auto; overflow-x: hidden; display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; align-content: start; min-width: 0; }
+    .main::-webkit-scrollbar { width: 4px; }
+    .main::-webkit-scrollbar-track { background: var(--bg); }
+    .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* PANELS */
+    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+    .panel-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    .panel-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); }
+    .panel-body { padding: 14px; flex: 1; }
+    .panel-body.np { padding: 0; }
+
+    /* GRID SPANS */
+    .s12 { grid-column: span 12; } .s8 { grid-column: span 8; } .s6 { grid-column: span 6; }
+    .s5 { grid-column: span 5; } .s4 { grid-column: span 4; } .s3 { grid-column: span 3; }
+
+    /* METRICS */
+    .rev-big { font-size: 32px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+    .rev-delta { font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+    .rev-delta.up { color: var(--green); } .rev-delta.down { color: var(--red); }
+    .rev-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+    .q-big { font-size: 28px; font-weight: 700; margin-bottom: 2px; }
+    .q-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* STATUS PILLS */
+    .pill-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .status-pill { display: flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 3px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .status-pill.running { background: var(--green-dim); color: var(--green); }
+    .status-pill.idle { background: var(--surface3); color: var(--gray); }
+    .status-pill.error { background: var(--red-dim); color: var(--red); }
+    .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .pill-count { font-weight: 700; }
+
+    /* GAUGES */
+    .gauges-row { display: flex; justify-content: space-around; align-items: center; gap: 12px; }
+    .gauge-wrap { text-align: center; flex: 1; }
+    .gauge-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
+    .gauge-value { font-size: 20px; font-weight: 700; }
+
+    /* AGENT ROWS */
+    .agent-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: var(--surface2); border-radius: 3px; margin-bottom: 6px; border: 1px solid var(--border); }
+    .agent-left { display: flex; align-items: center; gap: 10px; }
+    .agent-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .agent-dot.running { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .agent-dot.idle { background: var(--gray); }
+    .agent-dot.error { background: var(--red); box-shadow: 0 0 6px var(--red); }
+    .agent-name { font-weight: 500; font-size: 12px; }
+    .agent-badge { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 2px; }
+    .agent-badge.running { background: var(--green-dim); color: var(--green); }
+    .agent-badge.idle { background: var(--surface3); color: var(--gray); }
+    .agent-badge.error { background: var(--red-dim); color: var(--red); }
+    .agent-btns { display: flex; gap: 4px; }
+    .agent-btn { width: 28px; height: 24px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); background: var(--surface3); border-radius: 2px; cursor: pointer; transition: all 0.15s; color: var(--text-dim); }
+    .agent-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .agent-btn.danger:hover { border-color: var(--red); color: var(--red); }
+    .agent-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .run-all-btn { width: 100%; padding: 8px; margin-top: 8px; background: linear-gradient(135deg, rgba(0,234,255,0.15), rgba(0,234,255,0.05)); border: 1px solid var(--cyan); border-radius: 3px; color: var(--cyan); font-family: inherit; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.2s; text-shadow: 0 0 10px var(--cyan-glow); }
+    .run-all-btn:hover { background: rgba(0,234,255,0.2); box-shadow: 0 0 20px var(--cyan-glow); }
+
+    /* PLUGIN ROWS */
+    .plugin-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: var(--surface2); border-radius: 3px; margin-bottom: 6px; border: 1px solid var(--border); }
+    .plugin-left { display: flex; align-items: center; gap: 10px; }
+    .plugin-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .plugin-right { display: flex; align-items: center; gap: 8px; }
+    .toggle { width: 36px; height: 18px; border-radius: 9px; background: var(--surface3); border: 1px solid var(--border); position: relative; cursor: pointer; transition: all 0.2s; }
+    .toggle.on { background: var(--cyan-dim); border-color: var(--cyan); }
+    .toggle-knob { width: 14px; height: 14px; border-radius: 7px; background: var(--gray); position: absolute; top: 1px; left: 1px; transition: all 0.2s; }
+    .toggle.on .toggle-knob { left: 19px; background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+    .plugin-action { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 2px; border: 1px solid var(--border); background: var(--surface3); color: var(--text-dim); cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .plugin-action:hover { border-color: var(--purple); color: var(--purple); }
+    .plugin-action.remove:hover { border-color: var(--red); color: var(--red); }
+
+    /* LOGS */
+    .log-scroll { max-height: 300px; overflow-y: auto; font-size: 11px; }
+    .log-scroll::-webkit-scrollbar { width: 4px; } .log-scroll::-webkit-scrollbar-track { background: var(--surface); } .log-scroll::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
+    .log-line { padding: 3px 0; border-bottom: 1px solid rgba(28,42,58,0.5); display: flex; gap: 8px; font-variant-numeric: tabular-nums; }
+    .log-time { color: var(--text-muted); flex-shrink: 0; width: 70px; }
+    .log-src { color: var(--purple); font-weight: 600; flex-shrink: 0; min-width: 100px; }
+    .log-msg { color: var(--text-dim); }
+    .log-line.error .log-msg { color: var(--red); } .log-line.warn .log-msg { color: var(--amber); } .log-line.info .log-msg { color: var(--text); }
+
+    /* TABLES */
+    .tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .tbl th { text-align: left; padding: 8px 10px; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); border-bottom: 1px solid var(--border); background: var(--surface2); }
+    .tbl td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text); }
+    .tbl tr:hover td { background: var(--surface2); }
+
+    /* QUEUE BARS */
+    .q-bar-row { display: flex; gap: 8px; margin-bottom: 12px; }
+    .q-bar-stat { flex: 1; text-align: center; padding: 12px 8px; background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; }
+    .q-bar-num { font-size: 24px; font-weight: 700; }
+    .q-bar-lbl { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+    /* SETTINGS */
+    .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; margin-bottom: 6px; }
+    .setting-label { font-weight: 500; }
+    .setting-val { color: var(--cyan); font-size: 11px; max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .setting-input { background: var(--surface3); border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 3px; font-family: inherit; font-size: 11px; width: 300px; }
+    .setting-input:focus { outline: none; border-color: var(--cyan); }
+
+    /* FILTER BAR */
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; }
+    .filter-btn { padding: 4px 12px; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); border-radius: 3px; font-family: inherit; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: all 0.15s; }
+    .filter-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .filter-btn.active { border-color: var(--cyan); color: var(--cyan); background: var(--cyan-dim); }
+    .search-input { flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 5px 10px; border-radius: 3px; font-family: inherit; font-size: 11px; }
+    .search-input:focus { outline: none; border-color: var(--cyan); }
+    .search-input::placeholder { color: var(--text-muted); }
+
+    /* MEMORY INSPECTOR */
+    .mem-row { display: flex; gap: 8px; margin-bottom: 8px; }
+    .mem-key { background: var(--purple-dim); color: var(--purple); padding: 2px 8px; border-radius: 2px; font-size: 11px; font-weight: 600; min-width: 180px; }
+    .mem-val { color: var(--text); font-size: 11px; }
+
+    /* PLAYBOOK */
+    .pb-progress { display: flex; gap: 0; margin-bottom: 20px; }
+    .pb-step-dot { flex: 1; height: 4px; background: var(--surface3); position: relative; transition: all 0.3s; }
+    .pb-step-dot.done { background: var(--green); }
+    .pb-step-dot.active { background: var(--cyan); box-shadow: 0 0 8px var(--cyan-glow); }
+    .pb-step-nav { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 16px; }
+    .pb-step-btn { padding: 6px 12px; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); border-radius: 3px; font-family: inherit; font-size: 10px; cursor: pointer; transition: all 0.15s; }
+    .pb-step-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .pb-step-btn.active { border-color: var(--cyan); color: var(--cyan); background: var(--cyan-dim); }
+    .pb-step-btn.done { border-color: var(--green); color: var(--green); }
+    .pb-content { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 20px; }
+    .pb-title { font-size: 16px; font-weight: 700; color: var(--cyan); margin-bottom: 4px; }
+    .pb-subtitle { font-size: 11px; color: var(--text-dim); margin-bottom: 16px; }
+    .pb-section { margin-bottom: 16px; }
+    .pb-section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--purple); margin-bottom: 8px; }
+    .pb-text { color: var(--text); font-size: 12px; line-height: 1.7; margin-bottom: 8px; }
+    .pb-code { background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 12px 14px; font-size: 11px; color: var(--green); overflow-x: auto; margin: 8px 0; white-space: pre-wrap; word-break: break-word; line-height: 1.6; max-width: 100%; }
+    .pb-code-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 4px; }
+    .pb-file { color: var(--cyan); font-weight: 500; }
+    .pb-warn { background: var(--amber-dim); border: 1px solid rgba(255,170,0,0.3); border-radius: 3px; padding: 8px 12px; color: var(--amber); font-size: 11px; margin: 8px 0; }
+    .pb-tip { background: var(--cyan-dim); border: 1px solid rgba(0,234,255,0.2); border-radius: 3px; padding: 8px 12px; color: var(--cyan); font-size: 11px; margin: 8px 0; }
+    .pb-nav-btns { display: flex; justify-content: space-between; margin-top: 20px; }
+    .pb-nav-btn { padding: 8px 20px; border: 1px solid var(--border); background: var(--surface3); color: var(--text-dim); border-radius: 3px; font-family: inherit; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.15s; }
+    .pb-nav-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .pb-nav-btn.primary { border-color: var(--cyan); color: var(--cyan); background: var(--cyan-dim); }
+    .pb-checklist { list-style: none; padding: 0; }
+    .pb-check-item { padding: 6px 0; display: flex; align-items: flex-start; gap: 8px; color: var(--text); font-size: 12px; cursor: pointer; }
+    .pb-check-box { width: 16px; height: 16px; border: 1px solid var(--border); border-radius: 2px; background: var(--surface3); flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 1px; transition: all 0.15s; }
+    .pb-check-box.checked { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+    .pb-arch-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 12px 0; }
+    .pb-arch-card { background: var(--surface3); border: 1px solid var(--border); border-radius: 3px; padding: 10px; text-align: center; }
+    .pb-arch-card-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .pb-arch-card-desc { font-size: 10px; color: var(--text-dim); }
+
+    /* ── SLIDE-OVER (Playbook full-screen drawer) ───────────────────────── */
+    .slide-over {
+      position: fixed; top: 0; right: 0; bottom: 0; left: 0;
+      background: var(--bg); z-index: 200;
+      transform: translateX(100%);
+      transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .slide-over.open { transform: translateX(0); }
+    .slide-over-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 48px; background: var(--surface);
+      border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    .slide-over-title { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--cyan); }
+    .slide-over-close {
+      width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border); background: var(--surface2); border-radius: 3px;
+      cursor: pointer; color: var(--text-dim); transition: all 0.15s;
+    }
+    .slide-over-close:hover { border-color: var(--red); color: var(--red); }
+    .slide-over-close svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .slide-over-body {
+      flex: 1; overflow-y: auto; overflow-x: hidden; padding: 24px;
+      display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; align-content: start;
+    }
+    .slide-over-body::-webkit-scrollbar { width: 4px; }
+    .slide-over-body::-webkit-scrollbar-track { background: var(--bg); }
+    .slide-over-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* ── CHAT PANEL (right-side drawer) ─────────────────────────────────── */
+    .chat-panel {
+      position: fixed; top: 48px; right: 0; bottom: 0; width: 380px;
+      background: var(--surface); border-left: 1px solid var(--border);
+      z-index: 150; transform: translateX(100%);
+      transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column;
+    }
+    .chat-panel.open { transform: translateX(0); }
+    .chat-panel-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; height: 44px; background: var(--surface2);
+      border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    .chat-panel-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--amber); display: flex; align-items: center; gap: 8px; }
+    .chat-panel-close { cursor: pointer; color: var(--text-dim); display: flex; align-items: center; }
+    .chat-panel-close:hover { color: var(--red); }
+    .chat-panel-close svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .chat-msgs {
+      flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .chat-msgs::-webkit-scrollbar { width: 4px; }
+    .chat-msgs::-webkit-scrollbar-track { background: var(--surface); }
+    .chat-msgs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .chat-msg { display: flex; flex-direction: column; gap: 3px; max-width: 90%; }
+    .chat-msg.user { align-self: flex-end; align-items: flex-end; }
+    .chat-msg.bot  { align-self: flex-start; align-items: flex-start; }
+    .chat-bubble {
+      padding: 8px 12px; border-radius: 4px; font-size: 12px; line-height: 1.6; word-break: break-word;
+    }
+    .chat-msg.user .chat-bubble { background: var(--cyan-dim); border: 1px solid rgba(0,234,255,0.25); color: var(--text); }
+    .chat-msg.bot  .chat-bubble { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
+    .chat-meta { font-size: 9px; color: var(--text-muted); letter-spacing: 0.5px; }
+    .chat-input-row {
+      display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--border); flex-shrink: 0;
+    }
+    .chat-input {
+      flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+      padding: 8px 12px; border-radius: 3px; font-family: inherit; font-size: 11px; resize: none;
+      height: 38px; outline: none; transition: border-color 0.15s;
+    }
+    .chat-input:focus { border-color: var(--cyan); }
+    .chat-send {
+      width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+      background: var(--cyan-dim); border: 1px solid var(--cyan); border-radius: 3px;
+      cursor: pointer; transition: all 0.15s; color: var(--cyan); flex-shrink: 0;
+    }
+    .chat-send:hover { background: rgba(0,234,255,0.25); box-shadow: 0 0 10px var(--cyan-glow); }
+    .chat-send svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .chat-toggle {
+      display: flex; align-items: center; gap: 6px; padding: 4px 12px;
+      border: 1px solid var(--border); background: var(--surface2); border-radius: 3px;
+      cursor: pointer; font-family: inherit; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); transition: all 0.15s;
+    }
+    .chat-toggle:hover, .chat-toggle.active { border-color: var(--amber); color: var(--amber); background: rgba(255,170,0,0.08); }
+    .chat-toggle svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    @media (max-width: 1280px) {
+      .app { grid-template-columns: 56px minmax(0, 1fr); }
+      .nav-item span { display: none; } .nav-item { justify-content: center; padding: 10px; }
+      .s4, .s5, .s3 { grid-column: span 6; } .s6 { grid-column: span 12; } .s8 { grid-column: span 12; }
+    }
+    @media (max-width: 900px) {
+      .s4, .s5, .s3, .s6, .s8 { grid-column: span 12; }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback, useMemo } = React;
+
+const api = (p) => fetch(`/api${p}`).then(r => r.json()).catch(() => null);
+const apiPost = (p, b = {}) => fetch(`/api${p}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(b) }).then(r => r.json()).catch(() => null);
+
+// ─── SVG COMPONENTS ──────────────────────────────────
+function Sparkline({ data, width = 200, height = 50, color = "var(--cyan)" }) {
+  if (!data || data.length < 2) data = Array.from({ length: 20 }, (_, i) => 30 + Math.sin(i * 0.5) * 20 + Math.random() * 10);
+  const max = Math.max(...data), min = Math.min(...data), range = max - min || 1;
+  const step = width / (data.length - 1);
+  const pts = data.map((v, i) => `${i * step},${height - ((v - min) / range) * (height - 4) - 2}`);
+  const pathD = `M${pts.join(" L")}`;
+  const cid = `g${color.replace(/[^a-z0-9]/g, "")}`;
+  return (
+    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ display: "block", width: "100%" }}>
+      <defs><linearGradient id={cid} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity="0.4"/><stop offset="100%" stopColor={color} stopOpacity="0"/></linearGradient></defs>
+      <path d={`${pathD} L${width},${height} L0,${height} Z`} fill={`url(#${cid})`} opacity="0.3"/>
+      <path d={pathD} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
+function BarChart({ data, width = 300, height = 80 }) {
+  if (!data || !data.length) data = Array.from({ length: 12 }, () => ({ running: Math.floor(Math.random()*40)+10, idle: Math.floor(Math.random()*20), error: Math.floor(Math.random()*5) }));
+  const maxV = Math.max(...data.map(d => d.running+d.idle+d.error)) || 1;
+  const bw = (width/data.length)*0.7, gap = (width/data.length)*0.3;
+  return (
+    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ display: "block", width: "100%" }}>
+      {data.map((d,i) => { const x=i*(bw+gap)+gap/2, rH=(d.running/maxV)*(height-4), iH=(d.idle/maxV)*(height-4), eH=(d.error/maxV)*(height-4); return (
+        <g key={i}><rect x={x} y={height-rH} width={bw} height={rH} fill="var(--green)" opacity="0.8" rx="1"/><rect x={x} y={height-rH-iH} width={bw} height={iH} fill="var(--gray)" opacity="0.5" rx="1"/><rect x={x} y={height-rH-iH-eH} width={bw} height={eH} fill="var(--red)" opacity="0.7" rx="1"/></g>
+      );})}
+      <polyline points={data.map((d,i)=>`${i*(bw+gap)+gap/2+bw/2},${height-(d.running/maxV)*(height-4)-6}`).join(" ")} fill="none" stroke="var(--cyan)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.9"/>
+    </svg>
+  );
+}
+
+function Gauge({ value=0, max=100, label="", color="var(--cyan)", unit="%" }) {
+  const pct = Math.min(value/max,1), r=40, cx=50, cy=50;
+  const sa=135, ea=405, ta=ea-sa, aa=sa+ta*pct;
+  const p = (a) => { const rad=(a-90)*Math.PI/180; return { x: cx+r*Math.cos(rad), y: cy+r*Math.sin(rad) }; };
+  const s=p(sa), e=p(ea), ae=p(aa);
+  const bgPath = `M${s.x},${s.y} A${r},${r} 0 ${ta>180?1:0} 1 ${e.x},${e.y}`;
+  const actPath = `M${s.x},${s.y} A${r},${r} 0 ${(aa-sa)>180?1:0} 1 ${ae.x},${ae.y}`;
+  return (
+    <div className="gauge-wrap">
+      <svg width="100" height="75" viewBox="0 0 100 75">
+        <path d={bgPath} fill="none" stroke="var(--surface3)" strokeWidth="6" strokeLinecap="round"/>
+        <path d={actPath} fill="none" stroke={color} strokeWidth="6" strokeLinecap="round" style={{ filter: `drop-shadow(0 0 4px ${color})` }}/>
+      </svg>
+      <div className="gauge-value" style={{ color, marginTop: "-10px" }}>{unit==="Mbps"?value:Math.round(value)}<span style={{ fontSize:11,fontWeight:400,color:"var(--text-dim)" }}>{unit}</span></div>
+      <div className="gauge-label">{label}</div>
+    </div>
+  );
+}
+
+function PlayIcon(){return <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>;}
+function PauseIcon(){return <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" fill="currentColor" stroke="none"/><rect x="14" y="4" width="4" height="16" fill="currentColor" stroke="none"/></svg>;}
+function StopIcon(){return <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1" fill="currentColor" stroke="none"/></svg>;}
+
+const icons = {
+  dashboard: <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>,
+  agents: <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-7 8-7s8 3 8 7"/></svg>,
+  queue: <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>,
+  plugins: <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>,
+  logs: <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>,
+  settings: <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>,
+  user: <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3 3-5.5 6-5.5s6 2.5 6 5.5"/></svg>,
+  playbook: <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="9" y1="7" x2="16" y2="7"/><line x1="9" y1="11" x2="16" y2="11"/><line x1="9" y1="15" x2="13" y2="15"/></svg>,
+};
+
+// ─── PAGE: DASHBOARD ─────────────────────────────────
+function DashboardPage({ agents, revenue, queue, system, logs, logRef, onRunAll }) {
+  const revData = useMemo(() => Array.from({ length: 24 }, (_, i) => 1200 + Math.sin(i*0.3)*400 + i*50 + Math.random()*200), []);
+  const queueData = useMemo(() => Array.from({ length: 24 }, () => Math.floor(Math.random()*80)+20), []);
+  const perfData = useMemo(() => Array.from({ length: 12 }, () => ({ running: Math.floor(Math.random()*40)+20, idle: Math.floor(Math.random()*15)+5, error: Math.floor(Math.random()*5) })), []);
+  const rc = agents.filter(a=>a.state==="running").length, ic = agents.filter(a=>!a.state||a.state==="idle").length, ec = agents.filter(a=>a.state==="error").length;
+  const cpuVal = system ? Math.min(95,(system.memoryMB/5)+15+Math.random()*10) : 32;
+  const ramVal = system ? Math.min(95,system.memoryMB/5) : 58;
+  return (
+    <>
+      {/* TDOG HERO BANNER */}
+      <div className="hero-banner">
+        <img src="/assets/3dtdog.gif" className="tdog-hero tdog-mascot" alt="T-Dog" onError={(e)=>{e.target.src="/assets/tdog-hero.png"}}/>
+        <div className="hero-text">
+          <h2>ETHINX COMMAND CENTER</h2>
+          <p>Sovereign automation cockpit — <span className="hero-accent">agents running</span>, <span className="hero-accent">plugins loaded</span>, <span style={{color:"var(--green)"}}>systems green</span>.<br/>Automate the automation that automates the automation.</p>
+        </div>
+        <img src="/assets/tdog-action.png" className="tdog-action tdog-mascot" alt="" style={{marginLeft:"auto"}} onError={(e)=>{e.target.style.display="none"}}/>
+      </div>
+      {/* REVENUE */}
+      <div className="panel s4"><div className="panel-head"><span className="panel-title">Monthly Recurring Revenue</span></div><div className="panel-body">
+        <div className="rev-label">MRR</div><div className="rev-big">${revenue?.mrr||"0"}</div>
+        <div className={`rev-delta ${(revenue?.conversion||0)>=0?"up":"down"}`}>+{revenue?.conversion||"0.00"}%</div>
+        <Sparkline data={revData} width={300} height={55} color="var(--green)"/>
+      </div></div>
+      {/* AGENT PERF */}
+      <div className="panel s5"><div className="panel-head"><span className="panel-title">Agent Performance</span></div><div className="panel-body">
+        <div className="pill-row">
+          <div className="status-pill running"><div className="pill-dot"></div>RUNNING <span className="pill-count">{rc}</span></div>
+          <div className="status-pill idle"><div className="pill-dot"></div>IDLE <span className="pill-count">{ic}</span></div>
+          <div className="status-pill error"><div className="pill-dot"></div>ERROR <span className="pill-count">{ec}</span></div>
+        </div>
+        <div style={{ marginTop: 10 }}><BarChart data={perfData} width={400} height={80}/></div>
+      </div></div>
+      {/* QUEUE */}
+      <div className="panel s3"><div className="panel-head"><span className="panel-title">Queue Stats</span></div><div className="panel-body">
+        <div className="q-label">Queue Depth</div><div className="q-big">{(queue?.waiting||0)+(queue?.active||0)}</div>
+        <div style={{margin:"6px 0"}}><span className="q-label">Throughput: </span><span style={{color:"var(--purple)",fontWeight:600}}>{queue?.completed||0} <span style={{color:"var(--text-dim)",fontWeight:400}}>/ min</span></span></div>
+        <Sparkline data={queueData} width={200} height={45} color="var(--purple)"/>
+      </div></div>
+      {/* HEALTH */}
+      <div className="panel s12"><div className="panel-head"><span className="panel-title">System Health</span></div><div className="panel-body">
+        <div className="gauges-row">
+          <Gauge value={cpuVal} max={100} label="CPU" color="var(--cyan)" unit="%"/>
+          <Gauge value={ramVal} max={100} label="RAM" color="var(--green)" unit="%"/>
+          <Gauge value={312} max={1000} label="Network" color="var(--purple)" unit="Mbps"/>
+          <Gauge value={system?.uptime ? Math.min(99,40+(system.uptime/60)) : 74} max={100} label="Disk" color="var(--amber)" unit="%"/>
+        </div>
+      </div></div>
+      {/* AGENTS CTRL */}
+      <div className="panel s6"><div className="panel-head"><span className="panel-title">Agents Control</span><span style={{fontSize:10,color:"var(--text-dim)"}}>{agents.length} registered</span></div><div className="panel-body">
+        {(agents.length?agents:[{name:"GrowthAgent",state:"idle"},{name:"SEOAgent",state:"idle"}]).map(a=>(
+          <div className="agent-row" key={a.name}><div className="agent-left"><div className={`agent-dot ${a.state||"idle"}`}></div><span className="agent-name">{a.name}</span><span className={`agent-badge ${a.state||"idle"}`}>{a.state||"idle"}</span></div>
+          <div className="agent-btns"><div className="agent-btn" title="Run" onClick={()=>apiPost("/agents/run",{agent:a.name})}><PlayIcon/></div><div className="agent-btn" title="Pause"><PauseIcon/></div><div className="agent-btn danger" title="Kill"><StopIcon/></div></div></div>
+        ))}
+        <button className="run-all-btn" onClick={onRunAll}>&#9654; RUN ALL</button>
+      </div></div>
+      {/* PLUGINS */}
+      <div className="panel s6"><div className="panel-head"><span className="panel-title">Plugin Manager</span></div><div className="panel-body">
+        <PluginList plugins={[]}/>
+      </div></div>
+      {/* LOGS */}
+      <div className="panel s12"><div className="panel-head"><span className="panel-title">Live Agent Logs</span><span style={{fontSize:10,color:"var(--text-dim)"}}>{logs.length} entries</span></div><div className="panel-body" style={{padding:"8px 14px"}}>
+        <LogScroll logs={logs} logRef={logRef}/>
+      </div></div>
+    </>
+  );
+}
+
+// ─── PAGE: AGENTS ─────────────────────────────────────
+function AgentsPage({ agents, logs }) {
+  const [filter, setFilter] = useState("all");
+  const filtered = agents.filter(a => filter === "all" || (a.state || "idle") === filter);
+  return (
+    <>
+      <div className="panel s12 page-enter"><div className="panel-head"><span className="panel-title"><img src="/assets/tdog-pixel.png" className="tdog-badge" alt="" onError={(e)=>{e.target.style.display="none"}}/>Agent Registry</span></div><div className="panel-body">
+        <div className="filter-bar">
+          {["all","running","idle","error"].map(f => <button key={f} className={`filter-btn ${filter===f?"active":""}`} onClick={()=>setFilter(f)}>{f}</button>)}
+        </div>
+        <table className="tbl"><thead><tr><th>Agent</th><th>Status</th><th>Runs</th><th>Last Run</th><th>Actions</th></tr></thead><tbody>
+          {(filtered.length?filtered:[{name:"GrowthAgent",state:"idle",runCount:0,lastRun:null},{name:"SEOAgent",state:"idle",runCount:0,lastRun:null}]).map(a=>(
+            <tr key={a.name}>
+              <td><div style={{display:"flex",alignItems:"center",gap:8}}><div className={`agent-dot ${a.state||"idle"}`}></div>{a.name}</div></td>
+              <td><span className={`agent-badge ${a.state||"idle"}`}>{a.state||"idle"}</span></td>
+              <td>{a.runCount||0}</td>
+              <td style={{color:"var(--text-dim)"}}>{a.lastRun ? new Date(a.lastRun).toLocaleString("en-AU",{hour12:false}) : "Never"}</td>
+              <td><div className="agent-btns"><div className="agent-btn" onClick={()=>apiPost("/agents/run",{agent:a.name})}><PlayIcon/></div><div className="agent-btn"><PauseIcon/></div><div className="agent-btn danger"><StopIcon/></div></div></td>
+            </tr>
+          ))}
+        </tbody></table>
+        <button className="run-all-btn" style={{marginTop:12}} onClick={()=>apiPost("/agents/run",{})}>&#9654; RUN ALL AGENTS</button>
+      </div></div>
+      <div className="panel s12"><div className="panel-head"><span className="panel-title">Agent Activity Log</span></div><div className="panel-body" style={{padding:"8px 14px"}}>
+        <div className="log-scroll" style={{maxHeight:250}}>
+          {logs.filter(l=>l.source!=="System"&&l.source!=="API").map(l=>(
+            <div className={`log-line ${l.level}`} key={l.id}><span className="log-time">{new Date(l.timestamp).toLocaleTimeString("en-AU",{hour12:false})}</span><span className="log-src">[{l.source}]</span><span className="log-msg">{l.message}</span></div>
+          ))}
+        </div>
+      </div></div>
+    </>
+  );
+}
+
+// ─── PAGE: QUEUE ──────────────────────────────────────
+function QueuePage({ queue }) {
+  const qData = useMemo(()=>Array.from({length:30},()=>Math.floor(Math.random()*100)+10),[]);
+  return (
+    <>
+      <div className="panel s12"><div className="panel-head"><span className="panel-title">Queue Overview</span></div><div className="panel-body">
+        <div className="q-bar-row">
+          <div className="q-bar-stat"><div className="q-bar-num" style={{color:"var(--amber)"}}>{queue?.waiting||0}</div><div className="q-bar-lbl">Waiting</div></div>
+          <div className="q-bar-stat"><div className="q-bar-num" style={{color:"var(--cyan)"}}>{queue?.active||0}</div><div className="q-bar-lbl">Active</div></div>
+          <div className="q-bar-stat"><div className="q-bar-num" style={{color:"var(--green)"}}>{queue?.completed||0}</div><div className="q-bar-lbl">Completed</div></div>
+          <div className="q-bar-stat"><div className="q-bar-num" style={{color:"var(--red)"}}>{queue?.failed||0}</div><div className="q-bar-lbl">Failed</div></div>
+        </div>
+        <div style={{marginTop:8}}>
+          <div className="q-label" style={{marginBottom:8}}>Throughput Over Time</div>
+          <Sparkline data={qData} width={800} height={80} color="var(--purple)"/>
+        </div>
+      </div></div>
+      <div className="panel s12"><div className="panel-head"><span className="panel-title">Queue Actions</span></div><div className="panel-body">
+        <div style={{display:"flex",gap:8}}>
+          <button className="run-all-btn" style={{maxWidth:200}} onClick={()=>apiPost("/agents/run",{source:"queue-page"})}>&#9654; Queue New Job</button>
+        </div>
+      </div></div>
+    </>
+  );
+}
+
+// ─── SHARED: PLUGIN LIST ─────────────────────────────
+function PluginList({ plugins }) {
+  const [states, setStates] = useState({});
+  const list = plugins.length ? plugins : [
+    { name: "SEO Booster", version: "1.0.0", permissions: ["read_metrics","write_pages"], color: "var(--green)", enabled: true },
+    { name: "Lead Tracker", version: "1.0.0", permissions: ["read_metrics"], color: "var(--cyan)", enabled: true },
+    { name: "AI Writer", version: "0.9.0", permissions: ["write_pages"], color: "var(--purple)", enabled: false },
+  ];
+  const isOn = (p) => states[p.name] !== undefined ? states[p.name] : p.enabled !== false;
+  const toggle = (p) => setStates(prev => ({...prev, [p.name]: !isOn(p)}));
+  return list.map(p => (
+    <div className="plugin-row" key={p.name}>
+      <div className="plugin-left"><div className="plugin-dot" style={{background:p.color||"var(--cyan)"}}></div><span style={{fontWeight:500,fontSize:12}}>{p.name}</span><span style={{fontSize:10,color:"var(--text-dim)",marginLeft:4}}>v{p.version||"1.0"}</span></div>
+      <div className="plugin-right">
+        <div className={`toggle ${isOn(p)?"on":""}`} onClick={()=>toggle(p)}><div className="toggle-knob"></div></div>
+        <button className="plugin-action">Install</button>
+        <button className="plugin-action remove">Uninstall</button>
+      </div>
+    </div>
+  ));
+}
+
+// ─── PAGE: PLUGINS ────────────────────────────────────
+function PluginsPage({ plugins }) {
+  return (
+    <>
+      <div className="panel s12"><div className="panel-head"><span className="panel-title">Installed Plugins</span><span style={{fontSize:10,color:"var(--text-dim)"}}>{plugins.length||3} loaded</span></div><div className="panel-body">
+        <PluginList plugins={plugins}/>
+      </div></div>
+      <div className="panel s12"><div className="panel-head"><span className="panel-title">Plugin Details</span></div><div className="panel-body">
+        <table className="tbl"><thead><tr><th>Plugin</th><th>Version</th><th>Events</th><th>Actions</th><th>Permissions</th></tr></thead><tbody>
+          {(plugins.length?plugins:[
+            {name:"SEO Booster",version:"1.0.0",events:["onAgentRun"],actions:["boostSEO"],permissions:["read_metrics","write_pages"]},
+            {name:"Lead Tracker",version:"1.0.0",events:["onAgentRun"],actions:["trackLead"],permissions:["read_metrics"]},
+            {name:"AI Writer",version:"0.9.0",events:["onAgentRun"],actions:["generateContent"],permissions:["write_pages"]},
+          ]).map(p=>(
+            <tr key={p.name}>
+              <td style={{fontWeight:500}}>{p.name}</td><td style={{color:"var(--text-dim)"}}>{p.version}</td>
+              <td>{(p.events||[]).map(e=><span key={e} style={{background:"var(--cyan-dim)",color:"var(--cyan)",padding:"1px 6px",borderRadius:2,fontSize:10,marginRight:4}}>{e}</span>)}</td>
+              <td>{(p.actions||[]).map(a=><span key={a} style={{background:"var(--purple-dim)",color:"var(--purple)",padding:"1px 6px",borderRadius:2,fontSize:10,marginRight:4}}>{a}</span>)}</td>
+              <td style={{color:"var(--amber)",fontSize:10}}>{(p.permissions||[]).join(", ")}</td>
+            </tr>
+          ))}
+        </tbody></table>
+      </div></div>
+    </>
+  );
+}
+
+// ─── PAGE: LOGS ───────────────────────────────────────
+function LogsPage({ logs, logRef }) {
+  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const filtered = logs.filter(l => {
+    if (filter !== "all" && l.level !== filter) return false;
+    if (search && !l.message.toLowerCase().includes(search.toLowerCase()) && !l.source.toLowerCase().includes(search.toLowerCase())) return false;
+    return true;
+  });
+  return (
+    <div className="panel s12"><div className="panel-head"><span className="panel-title">System Logs</span><span style={{fontSize:10,color:"var(--text-dim)"}}>{filtered.length} / {logs.length}</span></div><div className="panel-body" style={{padding:"8px 14px"}}>
+      <div className="filter-bar">
+        {["all","info","warn","error"].map(f=><button key={f} className={`filter-btn ${filter===f?"active":""}`} onClick={()=>setFilter(f)}>{f}</button>)}
+        <input className="search-input" placeholder="Search logs..." value={search} onChange={e=>setSearch(e.target.value)}/>
+      </div>
+      <div className="log-scroll" ref={logRef} style={{maxHeight:"calc(100vh - 220px)"}}>
+        {filtered.map(l=>(
+          <div className={`log-line ${l.level}`} key={l.id}><span className="log-time">{new Date(l.timestamp).toLocaleTimeString("en-AU",{hour12:false})}</span><span className="log-src">[{l.source}]</span><span className="log-msg">{l.message}</span></div>
+        ))}
+        {filtered.length===0 && <div style={{color:"var(--text-muted)",padding:20,textAlign:"center"}}>No logs match your filter</div>}
+      </div>
+    </div></div>
+  );
+}
+
+// ─── PAGE: SETTINGS ───────────────────────────────────
+function SettingsPage({ system }) {
+  const [memKey, setMemKey] = useState("");
+  const [memResult, setMemResult] = useState(null);
+  const lookupMem = async () => { if(memKey) { const r = await api(`/memory/${encodeURIComponent(memKey)}`); setMemResult(r); } };
+  return (
+    <>
+      <div className="panel s12"><div className="panel-head"><span className="panel-title">System Information</span></div><div className="panel-body">
+        <div className="setting-row"><span className="setting-label">Node Version</span><span className="setting-val">{system?.nodeVersion||"—"}</span></div>
+        <div className="setting-row"><span className="setting-label">Uptime</span><span className="setting-val">{system ? `${Math.floor(system.uptime/3600)}h ${Math.floor((system.uptime%3600)/60)}m ${Math.floor(system.uptime%60)}s` : "—"}</span></div>
+        <div className="setting-row"><span className="setting-label">Memory Usage</span><span className="setting-val">{system?.memoryMB||0} MB</span></div>
+        <div className="setting-row"><span className="setting-label">Redis</span><span className="setting-val" style={{color: system?.redis==="connected"?"var(--green)":"var(--red)"}}>{system?.redis||"unknown"}</span></div>
+        <div className="setting-row"><span className="setting-label">WebSocket Clients</span><span className="setting-val">{system?.wsClients||0}</span></div>
+        <div className="setting-row"><span className="setting-label">Environment</span><span className="setting-val">Production</span></div>
+        <div className="setting-row"><span className="setting-label">Region</span><span className="setting-val">australia-southeast1</span></div>
+      </div></div>
+      <div className="panel s12"><div className="panel-head"><span className="panel-title">Memory Inspector</span></div><div className="panel-body">
+        <div className="filter-bar">
+          <input className="search-input" placeholder="Enter Redis key (e.g. metrics:visits)" value={memKey} onChange={e=>setMemKey(e.target.value)} onKeyDown={e=>e.key==="Enter"&&lookupMem()} style={{maxWidth:400}}/>
+          <button className="filter-btn active" onClick={lookupMem}>Lookup</button>
+        </div>
+        {memResult && (
+          <div className="mem-row"><span className="mem-key">{memResult.key}</span><span className="mem-val">{memResult.value !== null ? JSON.stringify(memResult.value) : <span style={{color:"var(--text-muted)"}}>null</span>}</span></div>
+        )}
+        <div style={{marginTop:12,color:"var(--text-dim)",fontSize:11}}>
+          <div style={{marginBottom:6,fontWeight:600,color:"var(--text-dim)"}}>Common keys:</div>
+          {["metrics:visits","metrics:signups","metrics:mrr","metrics:totalRevenue","action:focus","seo:pages","agent:GrowthAgent:state","agent:SEOAgent:state"].map(k=>(
+            <span key={k} style={{display:"inline-block",background:"var(--surface3)",padding:"2px 8px",borderRadius:2,marginRight:6,marginBottom:4,cursor:"pointer",color:"var(--purple)",fontSize:10}} onClick={()=>{setMemKey(k);}}>{k}</span>
+          ))}
+        </div>
+      </div></div>
+    </>
+  );
+}
+
+// ─── SHARED: LOG SCROLL ──────────────────────────────
+function LogScroll({ logs, logRef }) {
+  useEffect(()=>{logRef?.current?.scrollTo(0,logRef.current.scrollHeight);}, [logs]);
+  return (
+    <div className="log-scroll" ref={logRef}>
+      {logs.map(l=>(<div className={`log-line ${l.level}`} key={l.id}><span className="log-time">{new Date(l.timestamp).toLocaleTimeString("en-AU",{hour12:false})}</span><span className="log-src">[{l.source}]</span><span className="log-msg">{l.message}</span></div>))}
+      {logs.length===0 && <div style={{color:"var(--text-muted)",padding:20,textAlign:"center"}}>Awaiting agent activity...</div>}
+    </div>
+  );
+}
+
+// ─── PAGE: PLAYBOOK ───────────────────────────────────
+function PlaybookPage() {
+  const [step, setStep] = useState(0);
+  const [checked, setChecked] = useState({});
+  const toggleCheck = (id) => setChecked(p => ({...p, [id]: !p[id]}));
+
+  const steps = [
+    {
+      title: "1. Architecture Overview",
+      subtitle: "Understand how ETHINX Core is structured before touching code.",
+      content: () => (
+        <>
+          <div className="pb-section">
+            <div className="pb-section-title">System Architecture</div>
+            <div className="pb-text">ETHINX Core is a multi-agent orchestration engine built on Node.js (ESM). Every component is modular and replaceable. Here's the stack:</div>
+            <div className="pb-arch-grid">
+              <div className="pb-arch-card"><div className="pb-arch-card-title" style={{color:"var(--cyan)"}}>API Layer</div><div className="pb-arch-card-desc">Express.js server on port 3000. Handles HTTP routes + serves the dashboard.</div></div>
+              <div className="pb-arch-card"><div className="pb-arch-card-title" style={{color:"var(--green)"}}>Agent Engine</div><div className="pb-arch-card-desc">Class-based agents extend BaseAgent. Orchestrator runs them in sequence with error isolation.</div></div>
+              <div className="pb-arch-card"><div className="pb-arch-card-title" style={{color:"var(--purple)"}}>Task Queue</div><div className="pb-arch-card-desc">BullMQ + Redis. Jobs queued via API, processed by worker. Scales horizontally.</div></div>
+              <div className="pb-arch-card"><div className="pb-arch-card-title" style={{color:"var(--amber)"}}>Memory Store</div><div className="pb-arch-card-desc">Redis-backed persistent KV store. Agents read/write state, metrics, and config.</div></div>
+              <div className="pb-arch-card"><div className="pb-arch-card-title" style={{color:"var(--red)"}}>Plugin System</div><div className="pb-arch-card-desc">Event-driven plugin bus. Plugins react to agent lifecycle events. Auto-discovered from /plugins.</div></div>
+              <div className="pb-arch-card"><div className="pb-arch-card-title" style={{color:"var(--cyan)"}}>WebSocket</div><div className="pb-arch-card-desc">Real-time log streaming to dashboard. Auto-reconnect. Centralized logger broadcasts to all clients.</div></div>
+            </div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">Directory Structure</div>
+            <div className="pb-code-label">Project Layout</div>
+            <div className="pb-code">{`ethinx-core/
+├── agents/          # Agent classes (extend BaseAgent)
+│   ├── baseAgent.js     # Abstract base — run(), log(), setState()
+│   ├── orchestrator.js  # Agent registry + execution loop
+│   ├── growthAgent.js   # Growth metrics analysis
+│   └── seoAgent.js      # SEO page generation
+├── api/             # Express routes
+│   ├── server.js        # Main server + WS attach
+│   ├── dashboard.js     # /api/* dashboard endpoints
+│   ├── billing.js       # Stripe checkout
+│   └── webhook.js       # Stripe webhooks
+├── core/            # Engine internals
+│   ├── logger.js        # Centralized log bus + WS broadcast
+│   ├── wsServer.js      # WebSocket server
+│   ├── pluginLoader.js  # Auto-discover + load plugins
+│   ├── pluginRunner.js  # Event emission to plugins
+│   ├── stripe.js        # Stripe client init
+│   └── git.js           # Auto-commit + push
+├── memory/          # Persistence layer
+│   ├── redis.js         # Redis connection
+│   └── store.js         # get/save memory helpers
+├── queue/           # Job processing
+│   ├── queue.js         # BullMQ queue instance
+│   └── worker.js        # Job worker → runAgents()
+├── plugins/         # Drop-in plugin modules
+│   └── seo-booster/
+│       └── index.js     # Sample plugin manifest
+├── public/          # Dashboard UI
+│   └── index.html       # This dashboard
+└── scripts/         # Deploy + ops scripts
+    ├── deploy.sh        # One-command Cloud Run deploy
+    └── map-domain.sh    # Domain mapping helper`}</div>
+          </div>
+          <div className="pb-tip">Every folder is a module boundary. You can replace any layer (e.g. swap Redis for Supabase) without touching the others.</div>
+        </>
+      )
+    },
+    {
+      title: "2. Creating a New Agent",
+      subtitle: "Agents are the core unit of work in ETHINX. Here's how to add one.",
+      content: () => (
+        <>
+          <div className="pb-section">
+            <div className="pb-section-title">Step-by-step</div>
+            <div className="pb-text">Every agent extends <span className="pb-file">BaseAgent</span> and implements a <code style={{color:"var(--cyan)"}}>run(ctx)</code> method. The orchestrator handles execution, error catching, state tracking, and plugin event emission automatically.</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">1. Create the agent file</div>
+            <div className="pb-code-label">agents/emailAgent.js</div>
+            <div className="pb-code">{`import { BaseAgent } from "./baseAgent.js";
+import { saveMemory, getMemory } from "../memory/store.js";
+
+export class EmailAgent extends BaseAgent {
+  constructor() {
+    super("EmailAgent");
+  }
+
+  async run(ctx) {
+    await this.log("Checking email queue");
+
+    const pending = await getMemory("email:pending") || [];
+
+    for (const email of pending) {
+      // Your email sending logic here
+      await this.log(\`Sending to \${email.to}\`);
+    }
+
+    await saveMemory("email:lastRun", new Date().toISOString());
+    await saveMemory("email:pending", []);
+    await this.log(\`Processed \${pending.length} emails\`);
+  }
+}`}</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">2. Register it in the orchestrator</div>
+            <div className="pb-code-label">agents/orchestrator.js — add two lines</div>
+            <div className="pb-code">{`import { EmailAgent } from "./emailAgent.js";
+
+// Add to the agents array:
+const agents = [
+  new GrowthAgent(),
+  new SEOAgent(),
+  new EmailAgent(),  // ← add this
+];`}</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">3. That's it</div>
+            <div className="pb-text">The agent will now:</div>
+            <ul className="pb-checklist">
+              <li className="pb-check-item" onClick={()=>toggleCheck("a1")}><div className={`pb-check-box ${checked.a1?"checked":""}`}>{checked.a1?"✓":""}</div>Appear in the Agents page with status tracking</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("a2")}><div className={`pb-check-box ${checked.a2?"checked":""}`}>{checked.a2?"✓":""}</div>Execute when "RUN ALL" is triggered or a job is queued</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("a3")}><div className={`pb-check-box ${checked.a3?"checked":""}`}>{checked.a3?"✓":""}</div>Log to the dashboard in real-time via WebSocket</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("a4")}><div className={`pb-check-box ${checked.a4?"checked":""}`}>{checked.a4?"✓":""}</div>Trigger plugin events (onAgentRun) after each run</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("a5")}><div className={`pb-check-box ${checked.a5?"checked":""}`}>{checked.a5?"✓":""}</div>Track run count and last run timestamp in Redis</li>
+            </ul>
+          </div>
+          <div className="pb-warn">Agents run sequentially in the orchestrator (not parallel). If you need parallel execution, change the orchestrator loop to Promise.all().</div>
+        </>
+      )
+    },
+    {
+      title: "3. Creating a Plugin",
+      subtitle: "Plugins react to system events without modifying core agent code.",
+      content: () => (
+        <>
+          <div className="pb-section">
+            <div className="pb-section-title">Plugin Structure</div>
+            <div className="pb-text">Each plugin lives in its own folder under <span className="pb-file">/plugins/</span> and exports a manifest object. The plugin loader auto-discovers them on startup.</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">1. Create plugin folder + manifest</div>
+            <div className="pb-code-label">plugins/lead-tracker/index.js</div>
+            <div className="pb-code">{`export default {
+  name: "lead-tracker",
+  version: "1.0.0",
+
+  // Declare what this plugin needs access to
+  permissions: ["read_metrics", "write_leads"],
+
+  // React to system events
+  events: {
+    onAgentRun: async (ctx) => {
+      console.log(\`[lead-tracker] Agent \${ctx.agent} finished\`);
+
+      // Example: track conversion after growth agent runs
+      if (ctx.agent === "GrowthAgent") {
+        // Your lead capture logic here
+      }
+    }
+  },
+
+  // Callable actions (invoked by other agents or API)
+  actions: {
+    trackLead: async (data) => {
+      console.log("[lead-tracker] New lead:", data);
+      return { status: "tracked" };
+    }
+  }
+};`}</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">2. Done — no registration needed</div>
+            <div className="pb-text">The plugin loader scans <span className="pb-file">/plugins/*/index.js</span> on startup. Your plugin auto-registers. It will:</div>
+            <ul className="pb-checklist">
+              <li className="pb-check-item" onClick={()=>toggleCheck("p1")}><div className={`pb-check-box ${checked.p1?"checked":""}`}>{checked.p1?"✓":""}</div>Appear in Plugin Manager with its name, version, and permissions</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("p2")}><div className={`pb-check-box ${checked.p2?"checked":""}`}>{checked.p2?"✓":""}</div>Receive onAgentRun events after every agent execution</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("p3")}><div className={`pb-check-box ${checked.p3?"checked":""}`}>{checked.p3?"✓":""}</div>Show its events and actions in the Plugins detail table</li>
+            </ul>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">Available Events</div>
+            <div className="pb-code">{`onAgentRun    → { agent: "AgentName", ctx: { ...jobData } }
+// More events coming: onJobComplete, onError, onDeploy`}</div>
+          </div>
+          <div className="pb-tip">Plugins are error-isolated. If your plugin throws, it won't crash other plugins or agents.</div>
+        </>
+      )
+    },
+    {
+      title: "4. Memory & Redis",
+      subtitle: "How agents persist state, share data, and track metrics.",
+      content: () => (
+        <>
+          <div className="pb-section">
+            <div className="pb-section-title">The Memory API</div>
+            <div className="pb-text">All memory operations go through <span className="pb-file">memory/store.js</span>. It's a simple key-value interface backed by Redis (Upstash in production).</div>
+            <div className="pb-code-label">Usage in any agent or plugin</div>
+            <div className="pb-code">{`import { saveMemory, getMemory } from "../memory/store.js";
+
+// Write any JSON-serializable value
+await saveMemory("metrics:visits", 1420);
+await saveMemory("seo:pages", ["page-1", "page-2"]);
+await saveMemory("user:abc123:plan", "pro");
+
+// Read it back (returns null if key doesn't exist)
+const visits = await getMemory("metrics:visits");  // 1420
+const pages = await getMemory("seo:pages");        // ["page-1", "page-2"]`}</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">Key Naming Conventions</div>
+            <div className="pb-code">{`metrics:*        → System metrics (visits, signups, mrr)
+agent:*:state    → Agent runtime state (running/idle/error)
+agent:*:lastRun  → Timestamp of last execution
+agent:*:runCount → Total executions
+user:*:plan      → User subscription tier
+action:*         → Strategy decisions from agents
+seo:*            → SEO agent outputs
+email:*          → Email agent queue data`}</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">Memory Inspector</div>
+            <div className="pb-text">Go to <strong style={{color:"var(--cyan)"}}>Settings → Memory Inspector</strong> in this dashboard to query any Redis key live. Use it for debugging and verifying agent output.</div>
+          </div>
+          <div className="pb-warn">Redis keys have no auto-expiry by default. For temporary data, implement TTL in your agent logic or use redis.setex() directly.</div>
+        </>
+      )
+    },
+    {
+      title: "5. API Endpoints",
+      subtitle: "Every endpoint available on the ETHINX Core API.",
+      content: () => (
+        <>
+          <div className="pb-section">
+            <div className="pb-section-title">Core Routes</div>
+            <div className="pb-code">{`POST /run                → Queue a new agent job
+                          Body: { keyword: "ai tools", ... }
+                          Returns: { status: "queued" }
+
+GET  /health             → Health check
+                          Returns: { status: "ok", uptime: 123.4 }`}</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">Dashboard API (/api/*)</div>
+            <div className="pb-code">{`GET  /api/status         → System status (uptime, RAM, Redis, WS clients)
+GET  /api/agents         → All registered agents + state
+POST /api/agents/run     → Trigger agent run from dashboard
+GET  /api/logs           → Recent log entries (?limit=100&source=&level=)
+GET  /api/plugins        → Loaded plugins + metadata
+GET  /api/revenue        → Revenue metrics (MRR, subs, conversion)
+GET  /api/queue          → Queue stats (waiting/active/completed/failed)
+GET  /api/memory/:key    → Read any Redis key
+POST /api/memory         → Write a Redis key (body: { key, value })`}</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">Billing Routes</div>
+            <div className="pb-code">{`POST /billing/create-checkout  → Create Stripe checkout session
+                                Returns: { url: "https://checkout.stripe.com/..." }
+
+POST /stripe/webhook          → Stripe webhook receiver
+                                Handles: checkout.session.completed,
+                                         customer.subscription.deleted`}</div>
+          </div>
+          <div className="pb-tip">To test the agent run: <code style={{color:"var(--green)"}}>curl -X POST https://your-url/run -H "Content-Type: application/json" -d '{"{"}keyword: "ai tools"{"}"}'</code></div>
+        </>
+      )
+    },
+    {
+      title: "6. Deploying Changes",
+      subtitle: "How to push updates to Cloud Run after making changes.",
+      content: () => (
+        <>
+          <div className="pb-section">
+            <div className="pb-section-title">Deploy Workflow</div>
+            <div className="pb-text">ETHINX Core runs on Google Cloud Run (australia-southeast1) with Artifact Registry for container images. One command deploys everything.</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">1. Make your changes locally</div>
+            <div className="pb-text">Edit agents, plugins, API routes, or dashboard. Test locally with:</div>
+            <div className="pb-code-label">WSL Terminal</div>
+            <div className="pb-code">{`docker-compose up --build`}</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">2. Deploy to production</div>
+            <div className="pb-code-label">WSL Terminal — ethinx-core directory</div>
+            <div className="pb-code">{`export $(grep -v '^#' .env | xargs) && npm run deploy`}</div>
+            <div className="pb-text">This builds the container, pushes to Artifact Registry, and deploys to Cloud Run. Takes ~2 minutes.</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">3. Domain mapping (first time only)</div>
+            <div className="pb-code-label">WSL Terminal</div>
+            <div className="pb-code">{`npm run domain`}</div>
+            <div className="pb-text">Then add the CNAME record it outputs to Cloudflare DNS. Set proxy to DNS only (grey cloud). SSL → Full (strict).</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">Environment Variables</div>
+            <div className="pb-code">{`REDIS_URL              → Upstash Redis connection string (rediss://...)
+STRIPE_SECRET_KEY      → Stripe API key (sk_test_... or sk_live_...)
+STRIPE_WEBHOOK_SECRET  → Stripe webhook signing secret (whsec_...)
+NODE_ENV               → "production" on Cloud Run
+PORT                   → 3000 (set automatically)`}</div>
+          </div>
+          <div className="pb-warn">Never commit .env to git. It's in .gitignore. Env vars are injected into Cloud Run via the deploy script.</div>
+        </>
+      )
+    },
+    {
+      title: "7. Scaling & Next Steps",
+      subtitle: "Where to take ETHINX Core from here.",
+      content: () => (
+        <>
+          <div className="pb-section">
+            <div className="pb-section-title">Current Scaling Config</div>
+            <div className="pb-code">{`Cloud Run:     0-3 instances (scales to zero when idle)
+Memory:        512Mi per instance
+CPU:           1 vCPU per instance
+Redis:         Upstash serverless (10k commands/day free)
+Cost at rest:  $0 (scales to zero)`}</div>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">Growth Checklist</div>
+            <ul className="pb-checklist">
+              <li className="pb-check-item" onClick={()=>toggleCheck("s1")}><div className={`pb-check-box ${checked.s1?"checked":""}`}>{checked.s1?"✓":""}</div>Add real email sending logic to EmailAgent (Resend, SendGrid, or SES)</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("s2")}><div className={`pb-check-box ${checked.s2?"checked":""}`}>{checked.s2?"✓":""}</div>Wire Stripe live keys and test end-to-end payment flow</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("s3")}><div className={`pb-check-box ${checked.s3?"checked":""}`}>{checked.s3?"✓":""}</div>Build a ContentAgent that generates SEO pages with AI</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("s4")}><div className={`pb-check-box ${checked.s4?"checked":""}`}>{checked.s4?"✓":""}</div>Add authentication to the dashboard (JWT or session-based)</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("s5")}><div className={`pb-check-box ${checked.s5?"checked":""}`}>{checked.s5?"✓":""}</div>Implement cron-style agent scheduling (BullMQ repeatable jobs)</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("s6")}><div className={`pb-check-box ${checked.s6?"checked":""}`}>{checked.s6?"✓":""}</div>Add Webhook signature verification for Stripe security</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("s7")}><div className={`pb-check-box ${checked.s7?"checked":""}`}>{checked.s7?"✓":""}</div>Map ethinx.solutions domain via Cloudflare</li>
+              <li className="pb-check-item" onClick={()=>toggleCheck("s8")}><div className={`pb-check-box ${checked.s8?"checked":""}`}>{checked.s8?"✓":""}</div>Set up CI/CD via GitHub Actions → Cloud Run</li>
+            </ul>
+          </div>
+          <div className="pb-section">
+            <div className="pb-section-title">Scaling Levers</div>
+            <div className="pb-text">When traffic grows:</div>
+            <div className="pb-code">{`# Increase max instances
+gcloud run services update ethinx-core \\
+  --max-instances 10 \\
+  --region australia-southeast1
+
+# Upgrade Redis (Upstash Pro or Memorystore)
+# Add dedicated worker instances for heavy jobs
+# Split API server and worker into separate Cloud Run services`}</div>
+          </div>
+          <div className="pb-tip">The architecture is designed so that API server, worker, and agents can be split into separate services when load demands it. No refactoring needed — just deploy the same codebase with different CMD entrypoints.</div>
+        </>
+      )
+    }
+  ];
+
+  return (
+    <div className="panel s12">
+      <div className="panel-head">
+        <span className="panel-title"><img src="/assets/tdog-armor.png" className="tdog-badge" alt="" onError={(e)=>{e.target.style.display="none"}}/>ETHINX Core — Developer Playbook</span>
+        <span style={{fontSize:10,color:"var(--text-dim)"}}>Step {step+1} of {steps.length}</span>
+      </div>
+      <div className="panel-body">
+        {/* Progress bar */}
+        <div className="pb-progress">
+          {steps.map((_,i) => <div key={i} className={`pb-step-dot ${i<step?"done":""} ${i===step?"active":""}`}/>)}
+        </div>
+        {/* Step nav */}
+        <div className="pb-step-nav">
+          {steps.map((s,i) => <button key={i} className={`pb-step-btn ${i===step?"active":""} ${i<step?"done":""}`} onClick={()=>setStep(i)}>{s.title.split(".")[0]}.</button>)}
+        </div>
+        {/* Content */}
+        <div className="pb-content">
+          <div className="pb-title">{steps[step].title}</div>
+          <div className="pb-subtitle">{steps[step].subtitle}</div>
+          {steps[step].content()}
+          <div className="pb-nav-btns">
+            <button className="pb-nav-btn" onClick={()=>setStep(Math.max(0,step-1))} style={{visibility:step===0?"hidden":"visible"}}>← Previous</button>
+            <button className={`pb-nav-btn ${step<steps.length-1?"primary":""}`} onClick={()=>setStep(Math.min(steps.length-1,step+1))} style={{visibility:step===steps.length-1?"hidden":"visible"}}>Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── MAIN APP ─────────────────────────────────────────
+function App() {
+  const [nav, setNav] = useState("dashboard");
+  const [system, setSystem] = useState(null);
+  const [agents, setAgents] = useState([]);
+  const [plugins, setPlugins] = useState([]);
+  const [revenue, setRevenue] = useState(null);
+  const [queue, setQueue] = useState(null);
+  const [logs, setLogs] = useState([]);
+  const [wsOk, setWsOk] = useState(false);
+  const [time, setTime] = useState("");
+  const wsRef = useRef(null);
+  const logRef = useRef(null);
+
+  useEffect(()=>{const t=()=>setTime(new Date().toLocaleTimeString("en-AU",{hour12:false}));t();const i=setInterval(t,1000);return()=>clearInterval(i);},[]);
+
+  useEffect(()=>{
+    function connect(){const proto=location.protocol==="https:"?"wss:":"ws:";const ws=new WebSocket(`${proto}//${location.host}/ws`);wsRef.current=ws;ws.onopen=()=>setWsOk(true);ws.onclose=()=>{setWsOk(false);setTimeout(connect,3000);};ws.onmessage=(e)=>{const m=JSON.parse(e.data);if(m.type==="history")setLogs(m.data);else if(m.type==="log")setLogs(p=>[...p.slice(-299),m.data]);};}
+    connect();return()=>wsRef.current?.close();
+  },[]);
+
+  useEffect(()=>{
+    async function poll(){const[s,a,p,r,q]=await Promise.all([api("/status"),api("/agents"),api("/plugins"),api("/revenue"),api("/queue")]);if(s)setSystem(s);if(a)setAgents(a.agents||[]);if(p)setPlugins(p.plugins||[]);if(r)setRevenue(r);if(q)setQueue(q);}
+    poll();const i=setInterval(poll,3000);return()=>clearInterval(i);
+  },[]);
+
+  const onRunAll = useCallback(()=>apiPost("/agents/run",{source:"dashboard"}),[]);
+
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatMsgs, setChatMsgs] = useState([
+    {id:1, role:"bot", text:"Hey TDog 🐾 — I'm your ETHINX assistant. Ask me anything about agents, deployments, or the playbook.", ts:"now"}
+  ]);
+  const [chatDraft, setChatDraft] = useState("");
+  const chatEndRef = useRef(null);
+  const playbookOpen = nav === "playbook";
+
+  useEffect(()=>{ chatEndRef.current?.scrollIntoView({behavior:"smooth"}); },[chatMsgs]);
+
+  const sendChat = () => {
+    const msg = chatDraft.trim();
+    if(!msg) return;
+    const ts = new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+    setChatMsgs(p=>[...p, {id:Date.now(), role:"user", text:msg, ts}]);
+    setChatDraft("");
+    setTimeout(()=>{
+      const replies = [
+        "On it. Check the Agents page for live status.",
+        "That's wired to the orchestrator — run All Agents from the Dashboard.",
+        "Playbook Step 3 covers that deployment flow.",
+        "Queue is processing. Watch the Logs page for output.",
+        "Plugin loaded. Restart the worker to activate it.",
+        "Revenue signal confirmed in the Dashboard tile.",
+      ];
+      const r = replies[Math.floor(Math.random()*replies.length)];
+      setChatMsgs(p=>[...p, {id:Date.now()+1, role:"bot", text:r, ts:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}]);
+    }, 600);
+  };
+
+  const renderPage = () => {
+    switch(nav) {
+      case "dashboard": return <DashboardPage agents={agents} revenue={revenue} queue={queue} system={system} logs={logs} logRef={logRef} onRunAll={onRunAll}/>;
+      case "agents":   return <AgentsPage agents={agents} logs={logs}/>;
+      case "queue":    return <QueuePage queue={queue}/>;
+      case "plugins":  return <PluginsPage plugins={plugins}/>;
+      case "logs":     return <LogsPage logs={logs} logRef={logRef}/>;
+      case "settings": return <SettingsPage system={system}/>;
+      default: return null;
+    }
+  };
+
+  return (
+    <div className="app">
+      {/* TOPBAR */}
+      <div className="topbar">
+        <div className="topbar-logo">ETHINX</div>
+        <div className="topbar-center">
+          <div className={`ws-dot ${wsOk?"live":"dead"}`}></div>
+          <span className="ws-label">{wsOk?"Connected":"Offline"}</span>
+        </div>
+        <div className="topbar-right">
+          <span className="topbar-time">{time}</span>
+          <button className={`chat-toggle ${chatOpen?"active":""}`} onClick={()=>setChatOpen(o=>!o)}>
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Chat
+          </button>
+          <img src="/assets/3dtdog.gif" className="tdog-topbar-mascot" alt="TDog" onError={(e)=>{e.target.src="/assets/tdog-chibi.png"}}/>
+        </div>
+      </div>
+
+      {/* SIDEBAR */}
+      <div className="sidebar">
+        <img src="/assets/tdog-logo.png" className="tdog-sidebar-logo" alt="" onError={(e)=>{e.target.style.display="none"}}/>
+        {[
+          {id:"dashboard",icon:icons.dashboard,label:"Dashboard"},
+          {id:"agents",   icon:icons.agents,   label:"Agents"},
+          {id:"queue",    icon:icons.queue,    label:"Queue"},
+          {id:"plugins",  icon:icons.plugins,  label:"Plugins"},
+          {id:"logs",     icon:icons.logs,     label:"Logs"},
+          {id:"playbook", icon:icons.playbook, label:"Playbook"},
+          {id:"settings", icon:icons.settings, label:"Settings"}
+        ].map(n=>(
+          <div key={n.id} className={`nav-item ${nav===n.id?"active":""}`} onClick={()=>setNav(n.id)}>
+            {n.icon}<span>{n.label}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* MAIN GRID */}
+      <div className="main" key={nav}>{renderPage()}</div>
+
+      {/* PLAYBOOK — full-screen slide-over */}
+      <div className={`slide-over ${playbookOpen?"open":""}`}>
+        <div className="slide-over-head">
+          <span className="slide-over-title">
+            <img src="/assets/tdog-armor.png" className="tdog-badge" alt="" onError={(e)=>{e.target.style.display="none"}}/>
+            Developer Playbook
+          </span>
+          <div className="slide-over-close" onClick={()=>setNav("dashboard")} title="Close">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </div>
+        </div>
+        <div className="slide-over-body">
+          <PlaybookPage/>
+        </div>
+      </div>
+
+      {/* CHAT — right-side slide panel */}
+      <div className={`chat-panel ${chatOpen?"open":""}`}>
+        <div className="chat-panel-head">
+          <span className="chat-panel-title">
+            <img src="/assets/3dtdog.gif" style={{width:18,height:18,borderRadius:2}} alt=""/>
+            TDog Assistant
+          </span>
+          <span className="chat-panel-close" onClick={()=>setChatOpen(false)}>
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </span>
+        </div>
+        <div className="chat-msgs">
+          {chatMsgs.map(m=>(
+            <div key={m.id} className={`chat-msg ${m.role==="user"?"user":"bot"}`}>
+              <div className="chat-bubble">{m.text}</div>
+              <span className="chat-meta">{m.ts}</span>
+            </div>
+          ))}
+          <div ref={chatEndRef}/>
+        </div>
+        <div className="chat-input-row">
+          <textarea
+            className="chat-input"
+            placeholder="Ask ETHINX..."
+            value={chatDraft}
+            onChange={e=>setChatDraft(e.target.value)}
+            onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChat();}}}
+          />
+          <div className="chat-send" onClick={sendChat}>
+            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </div>
+        </div>
+      </div>
+
+      {/* FLOATING TDOG */}
+      <div className="mascot-corner" title="T-Dog is watching...">
+        <img src="/assets/3dtdog.gif" alt="TDog" onError={(e)=>{e.target.src="/assets/tdog-dark.png"}}/>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
