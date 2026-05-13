@@ -6,6 +6,8 @@ import { fileURLToPath } from "url";
 import { taskQueue } from "../queue/queue.js";
 import { attachWebSocket } from "../core/wsServer.js";
 import { log } from "../core/logger.js";
+import helmet from "helmet";
+import { redis } from "../memory/redis.js";
 import billingRoutes from "./billing.js";
 import webhookRoutes from "./webhook.js";
 import dashboardRoutes from "./dashboard.js";
@@ -15,6 +17,8 @@ dotenv.config();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const server = createServer(app);
+
+app.use(helmet({ hsts: false, contentSecurityPolicy: false }));
 
 // Attach WebSocket for real-time dashboard logs
 attachWebSocket(server);
@@ -37,8 +41,16 @@ app.post("/run", async (req, res) => {
   res.json({ status: "queued" });
 });
 
-app.get("/health", (req, res) => {
-  res.json({ status: "ok", uptime: process.uptime() });
+app.get("/healthz", (req, res) =>
+  res.json({ status: "ok", uptime: process.uptime(), ts: Date.now() })
+);
+app.get("/readyz", async (req, res) => {
+  try {
+    await redis.ping();
+    res.json({ status: "ready", redis: "up" });
+  } catch (e) {
+    res.status(503).json({ status: "not-ready", error: e.message });
+  }
 });
 
 const PORT = process.env.PORT || 3000;
