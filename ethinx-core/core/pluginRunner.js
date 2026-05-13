@@ -1,4 +1,5 @@
 import { loadPlugins } from "./pluginLoader.js";
+import { log } from "./logger.js";
 
 let plugins = [];
 let loaded = false;
@@ -20,7 +21,7 @@ export async function emit(event, ctx) {
       try {
         await handler(ctx);
       } catch (e) {
-        console.error(`[pluginRunner] Error in ${plugin.name}:`, e.message);
+        log("System", "error", `[pluginRunner] Error in ${plugin.name}:`, { error: e.message });
       }
     }
   }

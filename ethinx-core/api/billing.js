@@ -1,5 +1,6 @@
 import express from "express";
 import { stripe } from "../core/stripe.js";
+import { log } from "../core/logger.js";
 
 const router = express.Router();
 
@@ -26,7 +27,7 @@ router.post("/create-checkout", async (req, res) => {
 
     res.json({ url: session.url });
   } catch (err) {
-    console.error("Stripe checkout error:", err.message);
+    log("API", "error", "Stripe checkout error:", { error: err.message });
     res.status(500).json({ error: err.message });
   }
 });
