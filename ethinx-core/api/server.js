@@ -26,6 +26,19 @@ attachWebSocket(server);
 // Webhook needs raw body — mount BEFORE json parser
 app.use("/stripe", webhookRoutes);
 
+// Paddle webhook skeleton
+app.post("/webhooks/paddle", express.raw({ type: "application/json" }), async (req, res) => {
+  try {
+    // TODO: Verify Paddle signature placeholder
+    const event = JSON.parse(req.body.toString());
+    log("Billing", "info", `Paddle event received: ${event.event_type || "unknown"}`);
+    res.json({ received: true });
+  } catch (e) {
+    log("Billing", "error", `Paddle webhook error: ${e.message}`);
+    res.status(200).json({ error: "Invalid payload" }); // Always 200 to prevent retries on bad data
+  }
+});
+
 app.use(express.json());
 
 // Serve dashboard UI
@@ -46,10 +59,13 @@ app.get("/healthz", (req, res) =>
 );
 app.get("/readyz", async (req, res) => {
   try {
-    await redis.ping();
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Redis ping timeout")), 500)
+    );
+    await Promise.race([redis.ping(), timeout]);
     res.json({ status: "ready", redis: "up" });
   } catch (e) {
-    res.status(503).json({ status: "not-ready", error: e.message });
+    res.json({ status: "not-ready", redis: "down", error: e.message });
   }
 });
 
