@@ -1,4 +1,0 @@
-- [ ] Configure Ollama system prompt for Cromenix territory (Gold #C9A84C / Dark #0a0a0a)
-- [ ] Create Product Launch prompt template for Empire Sentry notifications
-- [ ] Create Cromenix specialization prompt (Infrastructure Hardening / Global Scaling)
-- [ ] Deploy prompt configs to n8n Content-Spark workflow
