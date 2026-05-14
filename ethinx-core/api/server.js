@@ -7,6 +7,7 @@ import { taskQueue } from "../queue/queue.js";
 import { attachWebSocket } from "../core/wsServer.js";
 import { log } from "../core/logger.js";
 import helmet from "helmet";
+import { Environment, Paddle } from "@paddle/paddle-node-sdk";
 import { redis } from "../memory/redis.js";
 import billingRoutes from "./billing.js";
 import webhookRoutes from "./webhook.js";
@@ -18,6 +19,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const server = createServer(app);
 
+const paddle = new Paddle(process.env.PADDLE_API_KEY || "", {
+  environment:
+    process.env.NODE_ENV === "production"
+      ? Environment.production
+      : Environment.sandbox,
+});
+
 app.use(helmet({ hsts: false, contentSecurityPolicy: false }));
 
 // Attach WebSocket for real-time dashboard logs
@@ -26,18 +34,35 @@ attachWebSocket(server);
 // Webhook needs raw body — mount BEFORE json parser
 app.use("/stripe", webhookRoutes);
 
-// Paddle webhook skeleton
-app.post("/webhooks/paddle", express.raw({ type: "application/json" }), async (req, res) => {
-  try {
-    // TODO: Verify Paddle signature placeholder
-    const event = JSON.parse(req.body.toString());
-    log("Billing", "info", `Paddle event received: ${event.event_type || "unknown"}`);
-    res.json({ received: true });
-  } catch (e) {
-    log("Billing", "error", `Paddle webhook error: ${e.message}`);
-    res.status(200).json({ error: "Invalid payload" }); // Always 200 to prevent retries on bad data
+// Paddle webhook - must use raw body
+app.post(
+  "/webhooks/paddle",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
+    try {
+      const signature = req.headers["paddle-signature"];
+      const secret = process.env.PADDLE_WEBHOOK_SECRET;
+
+      if (!signature || !secret) {
+        log("Billing", "error", "Missing Paddle signature or secret");
+        return res.sendStatus(400);
+      }
+
+      const rawBody = req.body.toString("utf8");
+      const event = await paddle.webhooks.unmarshal(rawBody, secret, signature);
+
+      log("Billing", "info", `✅ Paddle webhook verified: ${event.eventType}`);
+
+      // TODO: handle event types
+      // switch(event.eventType) { ... }
+
+      res.sendStatus(200);
+    } catch (err) {
+      log("Billing", "error", `❌ Paddle webhook verification failed: ${err.message}`);
+      res.sendStatus(400);
+    }
   }
-});
+);
 
 app.use(express.json());
 
