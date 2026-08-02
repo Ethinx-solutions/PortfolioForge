@@ -9,7 +9,9 @@
     "start": "concurrently \"npm run dev\" \"npm run worker\"",
     "deploy": "bash scripts/deploy.sh",
     "setup": "bash scripts/setup-gcloud.sh",
-    "domain": "bash scripts/map-domain.sh"
+    "domain": "bash scripts/map-domain.sh",
+    "health": "node -e \"http.get('http://localhost:3000/healthz',r=>r.pipe(process.stdout))\"",
+    "ready": "node -e \"http.get('http://localhost:3000/readyz',r=>r.pipe(process.stdout))\""
   },
   "dependencies": {
     "bullmq": "^5.7.0",
@@ -26,5 +28,8 @@
     "stripe": "^14.0.0",
     "uuid": "^9.0.1",
     "ws": "^8.16.0"
+    "ws": "^8.16.0",
+    "concurrently": "^8.2.2",
+    "helmet": "^7.1.0"
   }
 }
