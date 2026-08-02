@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { log } from "./logger.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -16,9 +17,9 @@ export async function loadPlugins() {
       try {
         const mod = await import(indexPath);
         plugins.push(mod.default || mod);
-        console.log(`🔌 Loaded plugin: ${folder}`);
+        log("System", "info", `🔌 Loaded plugin: ${folder}`);
       } catch (e) {
-        console.error(`⚠️ Failed to load plugin: ${folder}`, e.message);
+        log("System", "error", `⚠️ Failed to load plugin: ${folder}`, { error: e.message });
       }
     }
   }

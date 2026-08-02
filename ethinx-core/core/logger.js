@@ -1,5 +1,22 @@
 // Centralized logger — captures all agent/plugin/system output
 // Broadcasts to connected WebSocket clients in real-time
+// Uses pino for structured JSON logging in production
+
+import pino from "pino";
+
+const isProduction = process.env.NODE_ENV === "production";
+
+const pinoLogger = pino({
+  level: process.env.LOG_LEVEL || "info",
+  transport: isProduction ? undefined : {
+    target: "pino-pretty",
+    options: {
+      colorize: true,
+      translateTime: "HH:MM:ss Z",
+      ignore: "pid,hostname",
+    },
+  },
+});
 
 const LOG_BUFFER_SIZE = 500;
 const logs = [];
@@ -24,9 +41,9 @@ export function log(source, level, message, meta = {}) {
     try { ws.send(payload); } catch {}
   }
 
-  // Also print to console
-  const icon = level === "error" ? "❌" : level === "warn" ? "⚠️" : "📋";
-  console.log(`${icon} [${source}] ${message}`);
+  // Structured logging with pino
+  const logMethod = pinoLogger[level] ? level : "info";
+  pinoLogger[logMethod]({ source, ...meta }, message);
 
   return entry;
 }
@@ -46,3 +63,11 @@ export function subscribe(ws) {
 export function getSubscriberCount() {
   return subscribers.size;
 }
+
+// Export logger methods for direct use
+export const logger = {
+  info: (msg, meta) => log("System", "info", msg, meta),
+  error: (msg, meta) => log("System", "error", msg, meta),
+  warn: (msg, meta) => log("System", "warn", msg, meta),
+  debug: (msg, meta) => log("System", "debug", msg, meta),
+};

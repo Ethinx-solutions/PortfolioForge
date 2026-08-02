@@ -1,11 +1,11 @@
 import { WebSocketServer } from "ws";
-import { subscribe, getLogs } from "./logger.js";
+import { subscribe, getLogs, log } from "./logger.js";
 
 export function attachWebSocket(server) {
   const wss = new WebSocketServer({ server, path: "/ws" });
 
   wss.on("connection", (ws) => {
-    console.log("🔌 Dashboard WS connected");
+    log("System", "info", "🔌 Dashboard WS connected");
 
     // Send recent log history on connect
     const history = getLogs(50);
@@ -16,7 +16,7 @@ export function attachWebSocket(server) {
 
     ws.on("close", () => {
       unsub();
-      console.log("🔌 Dashboard WS disconnected");
+      log("System", "info", "🔌 Dashboard WS disconnected");
     });
 
     ws.on("message", (raw) => {
