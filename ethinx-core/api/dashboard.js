@@ -28,7 +28,7 @@ router.get("/status", async (req, res) => {
 // ── AGENT STATUS ───────────────────────────────────────
 router.get("/agents", async (req, res) => {
   // Read agent states from Redis
-  const agentNames = ["GrowthAgent", "SEOAgent"];
+  const agentNames = ["GrowthAgent", "SEOAgent", "ContentAgent"];
   const agents = [];
 
   for (const name of agentNames) {

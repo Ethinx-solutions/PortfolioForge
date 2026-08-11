@@ -322,6 +322,58 @@
     .chat-toggle:hover, .chat-toggle.active { border-color: var(--amber); color: var(--amber); background: rgba(255,170,0,0.08); }
     .chat-toggle svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; }
 
+    /* ── CONTENT ENGINE ────────────────────────────────── */
+    .c-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 6px; display: block; }
+    .c-input, .c-select, .c-textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 3px; font-family: inherit; font-size: 12px; outline: none; transition: border-color 0.15s; }
+    .c-input:focus, .c-select:focus, .c-textarea:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(0,234,255,0.15); }
+    .c-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+    .c-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .c-form-col { display: flex; flex-direction: column; gap: 12px; }
+    .c-btn { padding: 8px 16px; border-radius: 3px; font-family: inherit; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; border: 1px solid var(--border); background: var(--surface3); color: var(--text-dim); transition: all 0.15s; }
+    .c-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .c-btn.primary { border-color: var(--cyan); background: var(--cyan-dim); color: var(--cyan); }
+    .c-btn.primary:hover { background: rgba(0,234,255,0.25); box-shadow: 0 0 14px var(--cyan-glow); }
+    .c-btn.danger { border-color: var(--red); background: var(--red-dim); color: var(--red); }
+    .c-btn.danger:hover { box-shadow: 0 0 10px rgba(255,68,102,0.3); }
+    .c-btn.success { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+    .c-btn.ghost { background: transparent; }
+    .c-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .c-btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .c-status { display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .c-status.draft { background: var(--surface3); color: var(--gray); }
+    .c-status.generating { background: var(--amber-dim); color: var(--amber); }
+    .c-status.draft_ready { background: var(--cyan-dim); color: var(--cyan); }
+    .c-status.in_review { background: var(--purple-dim); color: var(--purple); }
+    .c-status.approved { background: var(--green-dim); color: var(--green); }
+    .c-status.scheduled { background: var(--cyan-dim); color: var(--cyan); }
+    .c-status.published { background: var(--green-dim); color: var(--green); }
+    .c-status.error { background: var(--red-dim); color: var(--red); }
+    .c-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 14px; margin-bottom: 8px; transition: all 0.15s; }
+    .c-card:hover { border-color: var(--border-light); }
+    .c-card.selected { border-color: var(--cyan); box-shadow: 0 0 14px rgba(0,234,255,0.12); }
+    .c-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+    .c-card-title { font-size: 13px; font-weight: 600; color: var(--text); }
+    .c-card-sub { font-size: 11px; color: var(--text-dim); margin-top: 3px; }
+    .c-chip { display: inline-block; background: var(--surface3); border: 1px solid var(--border); color: var(--text-dim); padding: 1px 8px; border-radius: 10px; font-size: 10px; margin-right: 4px; }
+    .c-meta { font-size: 10px; color: var(--text-muted); }
+    .c-empty { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 12px; }
+    .c-empty-cta { margin-top: 12px; }
+    .c-pill-toggle { display: flex; gap: 6px; flex-wrap: wrap; }
+    .c-pill-toggle button { padding: 4px 12px; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); border-radius: 12px; font-family: inherit; font-size: 11px; cursor: pointer; transition: all 0.15s; }
+    .c-pill-toggle button.on { border-color: var(--cyan); color: var(--cyan); background: var(--cyan-dim); }
+    .c-progress { height: 4px; border-radius: 2px; background: var(--surface3); overflow: hidden; margin-top: 8px; }
+    .c-progress > div { height: 100%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan-glow); transition: width 0.4s; }
+    .c-spin { width: 14px; height: 14px; border: 2px solid var(--border-light); border-top-color: var(--cyan); border-radius: 50%; display: inline-block; animation: spin-slow 0.8s linear infinite; vertical-align: middle; }
+    .c-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--surface3); border: 1px solid var(--border-light); padding: 10px 18px; border-radius: 4px; font-size: 12px; z-index: 300; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+    .c-toast.ok { border-color: var(--green); color: var(--green); }
+    .c-toast.err { border-color: var(--red); color: var(--red); }
+    .c-mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); white-space: pre-wrap; word-break: break-word; line-height: 1.6; }
+    .c-version-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: var(--surface3); border-radius: 3px; margin-bottom: 6px; font-size: 11px; cursor: pointer; border: 1px solid transparent; }
+    .c-version-row:hover, .c-version-row.active { border-color: var(--cyan); }
+    .c-gauge-num { font-size: 28px; font-weight: 700; color: var(--green); }
+    .c-rate { font-size: 13px; font-weight: 600; }
+    .c-mini-chart { margin-top: 8px; }
+
     @media (max-width: 1280px) {
       .app { grid-template-columns: 56px minmax(0, 1fr); }
       .nav-item span { display: none; } .nav-item { justify-content: center; padding: 10px; }
@@ -339,6 +391,13 @@ const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
 const api = (p) => fetch(`/api${p}`).then(r => r.json()).catch(() => null);
 const apiPost = (p, b = {}) => fetch(`/api${p}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(b) }).then(r => r.json()).catch(() => null);
+
+// Content API — scoped by tenant header (defaults to "default")
+const TENANT = localStorage.getItem("ethinx:tenant") || "default";
+const setTenant = (t) => { localStorage.setItem("ethinx:tenant", t); };
+const cApi = (p) => fetch(`/api/content${p}`, { headers: { "X-Tenant-Id": TENANT } }).then(r => r.json()).catch(() => null);
+const cPost = (p, b = {}) => fetch(`/api/content${p}`, { method: "POST", headers: { "Content-Type": "application/json", "X-Tenant-Id": TENANT }, body: JSON.stringify(b) }).then(r => r.json()).catch(() => null);
+const cPatch = (p, b = {}) => fetch(`/api/content${p}`, { method: "PATCH", headers: { "Content-Type": "application/json", "X-Tenant-Id": TENANT }, body: JSON.stringify(b) }).then(r => r.json()).catch(() => null);
 
 // ─── SVG COMPONENTS ──────────────────────────────────
 function Sparkline({ data, width = 200, height = 50, color = "var(--cyan)" }) {
@@ -403,6 +462,11 @@ const icons = {
   settings: <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>,
   user: <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20c0-3 3-5.5 6-5.5s6 2.5 6 5.5"/></svg>,
   playbook: <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="9" y1="7" x2="16" y2="7"/><line x1="9" y1="11" x2="16" y2="11"/><line x1="9" y1="15" x2="13" y2="15"/></svg>,
+  content: <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="13" y2="16"/><circle cx="18" cy="16" r="2.5" fill="none"/></svg>,
+  drafts: <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h6"/><path d="M9 17h6"/><path d="M9 9h1"/></svg>,
+  approvals: <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>,
+  calendar: <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><circle cx="12" cy="15" r="2.5"/><line x1="12" y1="15" x2="14" y2="17"/></svg>,
+  performance: <svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/><line x1="2" y1="20" x2="22" y2="20"/></svg>,
 };
 
 // ─── PAGE: DASHBOARD ─────────────────────────────────
@@ -1030,9 +1094,512 @@ gcloud run services update ethinx-core \\
   );
 }
 
+// ─── SHARED: CONTENT STATUS CHIP ─────────────────────
+function ContentStatus({ status }) {
+  const s = status || "draft";
+  return <span className={`c-status ${s}`}><div className="pill-dot"></div>{s.replace("_", " ")}</span>;
+}
+
+function ContentToast({ toast, onClose }) {
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(onClose, 3500);
+    return () => clearTimeout(t);
+  }, [toast]);
+  if (!toast) return null;
+  return <div className={`c-toast ${toast.type}`}>{toast.msg}</div>;
+}
+
+function useToasts() {
+  const [toast, setToast] = useState(null);
+  const show = (msg, type = "ok") => setToast({ msg, type, id: Date.now() });
+  return { toast, show };
+}
+
+// ─── PAGE: BRIEF BUILDER (Content) ────────────────────
+function BriefBuilderPage({ onOpenBrief }) {
+  const [briefs, setBriefs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("all");
+  const [form, setForm] = useState({ topic: "", audience: "", goal: "", tone: "professional", channels: [] });
+  const [saving, setSaving] = useState(false);
+  const [generatingId, setGeneratingId] = useState(null);
+  const [plan, setPlan] = useState(null);
+  const { toast, show } = useToasts();
+
+  const CHANNELS = ["Blog", "LinkedIn", "Twitter/X", "Email"];
+  const TONES = ["professional", "casual", "bold", "playful", "educational"];
+
+  const load = async () => {
+    const [b, p] = await Promise.all([cApi("/briefs"), cApi("/plan")]);
+    if (b) setBriefs(b.briefs || []);
+    if (p) setPlan(p);
+    setLoading(false);
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const filtered = briefs.filter(b => filter === "all" || b.status === filter);
+  const canGenerate = !plan || plan.allowed === true;
+
+  const create = async () => {
+    if (!form.topic.trim()) return show("Topic is required", "err");
+    setSaving(true);
+    const r = await cPost("/briefs", form);
+    if (r.brief) {
+      setForm({ topic: "", audience: "", goal: "", tone: "professional", channels: [] });
+      show("Brief created");
+      load();
+    } else show(r.error || "Failed to create brief", "err");
+    setSaving(false);
+  };
+
+  const generate = async (id) => {
+    setGeneratingId(id);
+    const r = await cPost(`/briefs/${id}/generate`, { variants: 2 });
+    if (r.error) show(r.error, "err");
+    else show("Drafts generated");
+    setGeneratingId(null);
+    load();
+  };
+
+  const setChannel = (ch) => {
+    const on = form.channels.includes(ch);
+    setForm(f => ({ ...f, channels: on ? f.channels.filter(c => c !== ch) : [...f.channels, ch] }));
+  };
+
+  return (
+    <>
+      <div className="panel s12 page-enter"><div className="panel-head"><span className="panel-title">Brief Builder</span>
+        <div className="c-btn-row">
+          <span className="c-meta" style={{alignSelf:"center"}}>Tenant: <span style={{color:"var(--cyan)"}}>{TENANT}</span></span>
+          {plan && <span className={`c-status ${plan.allowed ? "approved" : "error"}`}>{plan.plan.toUpperCase()}{plan.allowed ? "" : " — LIMIT"}</span>}
+        </div>
+      </div>
+      <div className="panel-body" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+        <div className="c-form-col">
+          <div>
+            <span className="c-label">Topic *</span>
+            <input className="c-input" placeholder="e.g. AI content automation" value={form.topic} onChange={e=>setForm(f=>({...f,topic:e.target.value}))}/>
+          </div>
+          <div className="c-form-row" style={{marginBottom:0}}>
+            <div><span className="c-label">Audience</span>
+              <input className="c-input" placeholder="Marketing leads" value={form.audience} onChange={e=>setForm(f=>({...f,audience:e.target.value}))}/>
+            </div>
+            <div><span className="c-label">Goal</span>
+              <input className="c-input" placeholder="Drive trial signups" value={form.goal} onChange={e=>setForm(f=>({...f,goal:e.target.value}))}/>
+            </div>
+          </div>
+          <div><span className="c-label">Tone</span>
+            <div className="c-pill-toggle">
+              {TONES.map(t=> <button key={t} className={form.tone===t?"on":""} onClick={()=>setForm(f=>({...f,tone:t}))}>{t}</button>)}
+            </div>
+          </div>
+          <div><span className="c-label">Target Channels</span>
+            <div className="c-pill-toggle">
+              {CHANNELS.map(ch=> <button key={ch} className={form.channels.includes(ch)?"on":""} onClick={()=>setChannel(ch)}>{ch}</button>)}
+            </div>
+          </div>
+          <div className="c-btn-row">
+            <button className="c-btn primary" onClick={create} disabled={saving}>{saving?"Creating...":"Create Brief"}</button>
+          </div>
+        </div>
+        <div>
+          {!canGenerate && plan && (
+            <div className="c-card" style={{borderColor:"rgba(255,170,0,0.4)"}}>
+              <div style={{color:"var(--amber)",fontSize:12,fontWeight:600,marginBottom:6}}>Free plan generation limit reached</div>
+              <div className="c-meta">{plan.used} of {plan.allowance} generations used. Upgrade to Pro for unlimited AI drafts.</div>
+            </div>
+          )}
+          <div className="c-card" style={{borderColor:"rgba(0,234,255,0.25)"}}>
+            <div style={{fontSize:11,fontWeight:600,color:"var(--cyan)",marginBottom:6}}>How it works</div>
+            <div className="c-meta">1. Write a brief → 2. Generate drafts &amp; variants → 3. Review in Drafts → 4. Approve → 5. Publish &amp; track.</div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div className="panel s12"><div className="panel-head"><span className="panel-title">Briefs</span>
+        <div className="c-btn-row">
+          {["all","draft","generating","draft_ready","approved","published"].map(f=>
+            <button key={f} className={`filter-btn ${filter===f?"active":""}`} onClick={()=>setFilter(f)}>{f}</button>)}
+        </div>
+      </div>
+      <div className="panel-body">
+        {loading ? <div className="c-empty">Loading briefs…</div> :
+         !filtered.length ? (
+          <div className="c-empty">
+            <div>No briefs yet{filter!=="all"?` in "${filter}"`:""}.</div>
+            <div className="c-meta" style={{marginTop:6}}>Create your first brief on the left to start the content pipeline.</div>
+          </div>
+        ) : filtered.map(b => (
+          <div className="c-card" key={b.id}>
+            <div className="c-card-head">
+              <div>
+                <div className="c-card-title">{b.topic || "Untitled brief"}</div>
+                <div className="c-card-sub">{b.audience} • {b.goal}</div>
+              </div>
+              <ContentStatus status={b.status}/>
+            </div>
+            <div className="c-btn-row" style={{marginBottom:6}}>
+              {b.channels.map(ch=> <span key={ch} className="c-chip">{ch}</span>)}
+              <span className="c-chip">{b.tone}</span>
+            </div>
+            {b.status==="generating" && <div className="c-progress"><div style={{width:"60%"}}></div></div>}
+            <div className="c-btn-row" style={{marginTop:10}}>
+              <button className="c-btn primary" disabled={generatingId===b.id||b.status==="generating"||!canGenerate}
+                onClick={()=>generate(b.id)}>{generatingId===b.id?"Generating…":"Generate Drafts"}</button>
+              <button className="c-btn" onClick={()=>onOpenBrief(b.id)}>View Drafts</button>
+            </div>
+          </div>
+        ))}
+      </div></div>
+    </>
+  );
+}
+
+// ─── PAGE: DRAFT WORKSPACE ────────────────────────────
+function DraftWorkspacePage({ focusBriefId }) {
+  const [briefs, setBriefs] = useState([]);
+  const [briefId, setBriefId] = useState(focusBriefId || null);
+  const [assets, setAssets] = useState([]);
+  const [brief, setBrief] = useState(null);
+  const [selected, setSelected] = useState(null);
+  const [versions, setVersions] = useState([]);
+  const [editBody, setEditBody] = useState("");
+  const [loading, setLoading] = useState(true);
+  const { toast, show } = useToasts();
+
+  const loadBriefs = async () => {
+    const r = await cApi("/briefs");
+    if (r) {
+      setBriefs(r.briefs || []);
+      if (!briefId && r.briefs?.length) setBriefId(focusBriefId || r.briefs[0].id);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => { loadBriefs(); }, []);
+  useEffect(() => { if (focusBriefId) setBriefId(focusBriefId); }, [focusBriefId]);
+
+  useEffect(() => {
+    if (!briefId) return;
+    (async () => {
+      const [b, a] = await Promise.all([cApi(`/briefs/${briefId}`), cApi(`/briefs/${briefId}/assets`)]);
+      if (b?.brief) setBrief(b.brief);
+      if (a?.assets) {
+        setAssets(a.assets);
+        setSelected(a.assets[0] || null);
+        setEditBody(a.assets[0]?.body || "");
+      }
+    })();
+  }, [briefId]);
+
+  const pickAsset = async (asset) => {
+    setSelected(asset);
+    setEditBody(asset.body);
+    const v = await cApi(`/assets/${asset.id}/versions`);
+    if (v) setVersions(v.versions || []);
+  };
+
+  const saveEdit = async () => {
+    if (!selected) return;
+    const r = await cPost(`/assets/${selected.id}/edit`, { body: editBody, title: selected.title });
+    if (r.asset) { show("Draft updated (v" + r.asset.version + ")"); pickAsset(r.asset); }
+    else show(r.error || "Save failed", "err");
+  };
+
+  const setStatus = async (status) => {
+    if (!selected) return;
+    const r = await cPost(`/assets/${selected.id}/status`, { status });
+    if (r.asset) { show("Status → " + status); pickAsset(r.asset); }
+    else show(r.error || "Update failed", "err");
+  };
+
+  return (
+    <>
+      <div className="panel s12 page-enter"><div className="panel-head"><span className="panel-title">Draft Workspace</span>
+        <select className="c-select" style={{maxWidth:280}} value={briefId||""} onChange={e=>setBriefId(e.target.value)}>
+          <option value="" disabled>Select a brief…</option>
+          {briefs.map(b=> <option key={b.id} value={b.id}>{b.topic}</option>)}
+        </select>
+      </div>
+      <div className="panel-body">
+        {loading ? <div className="c-empty">Loading…</div> :
+         !briefId ? <div className="c-empty">Select a brief to view its drafts.</div> :
+         !assets.length ? <div className="c-empty"><div>No drafts for this brief yet.</div><div className="c-meta" style={{marginTop:6}}>Generate drafts from the Brief Builder.</div></div> : (
+        <div style={{display:"grid",gridTemplateColumns:"280px 1fr",gap:16}}>
+          <div>
+            <div className="c-card" style={{padding:10,marginBottom:10}}>
+              <div className="c-card-title" style={{fontSize:12}}>{brief?.topic}</div>
+              <div className="c-meta" style={{marginTop:4}}>{brief?.audience} • {brief?.goal}</div>
+              <div style={{marginTop:8}}><ContentStatus status={brief?.status}/></div>
+            </div>
+            {assets.map(a=> (
+              <div key={a.id} className={`c-version-row ${selected?.id===a.id?"active":""}`} onClick={()=>pickAsset(a)}>
+                <div>
+                  <div style={{fontWeight:600,color:"var(--text)"}}>{a.title || "Untitled"}</div>
+                  <div className="c-meta">{a.type} • v{a.version}</div>
+                </div>
+                <ContentStatus status={a.status}/>
+              </div>
+            ))}
+          </div>
+          {selected && (
+            <div>
+              <div className="c-card" style={{marginBottom:10}}>
+                <div className="c-card-head">
+                  <input className="c-input" style={{fontWeight:600,fontSize:13}} value={selected.title}
+                    onChange={e=>{setSelected({...selected,title:e.target.value}); setEditBody(editBody);}}/>
+                  <div className="c-btn-row">
+                    <button className="c-btn ghost" onClick={()=>setStatus("in_review")}>Send to Review</button>
+                    <button className="c-btn success" onClick={()=>setStatus("approved")}>Approve</button>
+                  </div>
+                </div>
+                <textarea className="c-textarea" style={{minHeight:320}} value={editBody} onChange={e=>setEditBody(e.target.value)}/>
+                <div className="c-btn-row" style={{marginTop:10}}>
+                  <button className="c-btn primary" onClick={saveEdit}>Save Version</button>
+                  <span className="c-meta" style={{alignSelf:"center"}}>v{selected.version} • {selected.status}</span>
+                </div>
+              </div>
+              <div className="c-card">
+                <div className="panel-title" style={{marginBottom:10}}>Version History</div>
+                {!versions.length ? <div className="c-meta">No versions yet.</div> :
+                 versions.map(v=> (
+                  <div className="c-version-row" key={v.version} onClick={()=>setEditBody(v.body)}>
+                    <span>v{v.version} <span className="c-meta">— {new Date(v.ts).toLocaleString("en-AU",{hour12:false})} by {v.editor}</span></span>
+                    <span style={{color:"var(--cyan)",fontSize:10}}>view</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      </div></div>
+    </>
+  );
+}
+
+// ─── PAGE: APPROVAL QUEUE ─────────────────────────────
+function ApprovalQueuePage() {
+  const [assets, setAssets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [busyId, setBusyId] = useState(null);
+  const { toast, show } = useToasts();
+
+  const load = async () => {
+    const r = await cApi("/assets?status=in_review");
+    if (r) setAssets(r.assets || []);
+    setLoading(false);
+  };
+  useEffect(() => { load(); }, []);
+
+  const act = async (id, status, msg) => {
+    setBusyId(id);
+    const r = await cPost(`/assets/${id}/status`, { status });
+    if (r.asset) { show(msg); load(); } else show(r.error || "Action failed", "err");
+    setBusyId(null);
+  };
+
+  return (
+    <div className="panel s12 page-enter"><div className="panel-head"><span className="panel-title">Approval Queue</span>
+      <span className="c-meta">{assets.length} awaiting review</span>
+    </div>
+    <div className="panel-body">
+      {loading ? <div className="c-empty">Loading…</div> :
+       !assets.length ? (
+        <div className="c-empty">
+          <div>Queue is clear.</div>
+          <div className="c-meta" style={{marginTop:6}}>Drafts appear here once sent to review from the Draft Workspace.</div>
+        </div>
+      ) : assets.map(a => (
+        <div className="c-card" key={a.id}>
+          <div className="c-card-head">
+            <div>
+              <div className="c-card-title">{a.title || "Untitled draft"}</div>
+              <div className="c-card-sub">{a.type} • v{a.version} • {new Date(a.updatedAt).toLocaleString("en-AU",{hour12:false})}</div>
+            </div>
+            <ContentStatus status={a.status}/>
+          </div>
+          <div className="c-mono" style={{maxHeight:120,overflow:"hidden",marginBottom:10}}>{a.body}</div>
+          <div className="c-btn-row">
+            <button className="c-btn success" disabled={busyId===a.id} onClick={()=>act(a.id,"approved","Approved")}>✓ Approve</button>
+            <button className="c-btn danger" disabled={busyId===a.id} onClick={()=>act(a.id,"draft","Sent back to drafts")}>✗ Reject</button>
+            <span className="c-meta" style={{alignSelf:"center"}}>Approved drafts are ready to publish from Calendar.</span>
+          </div>
+        </div>
+      ))}
+    </div></div>
+  );
+}
+
+// ─── PAGE: CALENDAR SCHEDULER ─────────────────────────
+function CalendarSchedulerPage() {
+  const [channels, setChannels] = useState([]);
+  const [assets, setAssets] = useState([]);
+  const [form, setForm] = useState({ name: "", format: "blog", schedule: "manual", connector: "webhook" });
+  const [publishTarget, setPublishTarget] = useState({ assetId: "", channelId: "" });
+  const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const { toast, show } = useToasts();
+
+  const load = async () => {
+    const [c, a] = await Promise.all([cApi("/channels"), cApi("/assets?status=approved")]);
+    if (c) setChannels(c.channels || []);
+    if (a) setAssets(a.assets || []);
+    setLoading(false);
+  };
+  useEffect(() => { load(); }, []);
+
+  const addChannel = async () => {
+    if (!form.name.trim()) return show("Channel name required", "err");
+    const r = await cPost("/channels", form);
+    if (r.channel) { show("Channel added"); setForm({ name:"", format:"blog", schedule:"manual", connector:"webhook" }); load(); }
+    else show(r.error || "Failed", "err");
+  };
+
+  const publish = async () => {
+    const { assetId, channelId } = publishTarget;
+    if (!assetId || !channelId) return show("Select an asset and a channel", "err");
+    setBusy(true);
+    const r = await cPost(`/assets/${assetId}/publish`, { channelId });
+    if (r.asset) show("Published ✓"); else show(r.error || "Publish failed", "err");
+    setBusy(false); load();
+  };
+
+  return (
+    <>
+      <div className="panel s12 page-enter"><div className="panel-head"><span className="panel-title">Calendar Scheduler</span>
+        <span className="c-meta">{assets.length} approved draft(s) ready</span>
+      </div>
+      <div className="panel-body">
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+          <div className="c-card">
+            <div className="panel-title" style={{marginBottom:12}}>Add Channel</div>
+            <div className="c-form-row" style={{marginBottom:8}}>
+              <div><span className="c-label">Name</span>
+                <input className="c-input" placeholder="LinkedIn Company Page" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))}/>
+              </div>
+              <div><span className="c-label">Format</span>
+                <select className="c-select" value={form.format} onChange={e=>setForm(f=>({...f,format:e.target.value}))}>
+                  <option value="blog">Blog</option><option value="social">Social</option>
+                  <option value="email">Email</option><option value="newsletter">Newsletter</option>
+                </select>
+              </div>
+            </div>
+            <div className="c-form-row" style={{marginBottom:8}}>
+              <div><span className="c-label">Schedule</span>
+                <input className="c-input" placeholder="manual | cron e.g. 0 9 * * 1" value={form.schedule} onChange={e=>setForm(f=>({...f,schedule:e.target.value}))}/>
+              </div>
+              <div><span className="c-label">Connector</span>
+                <select className="c-select" value={form.connector} onChange={e=>setForm(f=>({...f,connector:e.target.value}))}>
+                  <option value="webhook">Webhook</option><option value="manual">Manual</option>
+                </select>
+              </div>
+            </div>
+            <button className="c-btn primary" onClick={addChannel}>Add Channel</button>
+          </div>
+          <div className="c-card">
+            <div className="panel-title" style={{marginBottom:12}}>Publish Draft</div>
+            <div style={{marginBottom:8}}><span className="c-label">Approved Draft</span>
+              <select className="c-select" value={publishTarget.assetId} onChange={e=>setPublishTarget(p=>({...p,assetId:e.target.value}))}>
+                <option value="">Select draft…</option>
+                {assets.map(a=> <option key={a.id} value={a.id}>{a.title || "Untitled"}</option>)}
+              </select>
+            </div>
+            <div style={{marginBottom:12}}><span className="c-label">Channel</span>
+              <select className="c-select" value={publishTarget.channelId} onChange={e=>setPublishTarget(p=>({...p,channelId:e.target.value}))}>
+                <option value="">Select channel…</option>
+                {channels.map(ch=> <option key={ch.id} value={ch.id}>{ch.name} ({ch.format})</option>)}
+              </select>
+            </div>
+            <button className="c-btn success" disabled={busy} onClick={publish}>{busy?"Publishing…":"Publish & Distribute"}</button>
+          </div>
+        </div>
+      </div></div>
+
+      <div className="panel s12"><div className="panel-head"><span className="panel-title">Channels</span></div>
+      <div className="panel-body">
+        {loading ? <div className="c-empty">Loading…</div> :
+         !channels.length ? <div className="c-empty">No channels yet. Add one to start distributing content.</div> :
+        <table className="tbl"><thead><tr><th>Channel</th><th>Format</th><th>Schedule</th><th>Connector</th><th>Last Published</th></tr></thead><tbody>
+          {channels.map(ch=> (
+            <tr key={ch.id}>
+              <td style={{fontWeight:600}}>{ch.name}</td>
+              <td>{ch.format}</td>
+              <td className="c-mono">{ch.schedule}</td>
+              <td>{ch.connector || "—"}</td>
+              <td>{ch.lastPublishedAt ? new Date(ch.lastPublishedAt).toLocaleString("en-AU",{hour12:false}) : "Never"}</td>
+            </tr>
+          ))}
+        </tbody></table>}
+      </div></div>
+    </>
+  );
+}
+
+// ─── PAGE: PERFORMANCE DASHBOARD ──────────────────────
+function PerformancePage() {
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    (async () => {
+      const r = await cApi("/analytics");
+      if (r) setStats(r);
+      setLoading(false);
+    })();
+  }, []);
+
+  const totals = stats?.totals || { impressions: 0, clicks: 0, conversions: 0 };
+  const rates = stats?.rates || { ctr: 0, convRate: 0 };
+
+  return (
+    <>
+      <div className="panel s12 page-enter"><div className="panel-head"><span className="panel-title">Performance Dashboard</span>
+        <span className="c-meta">{stats?.count||0} assets tracked</span>
+      </div>
+      <div className="panel-body">
+        {loading ? <div className="c-empty">Loading…</div> :
+         !stats?.count ? (
+          <div className="c-empty">
+            <div>No performance data yet.</div>
+            <div className="c-meta" style={{marginTop:6}}>Publish a draft and analytics will be recorded automatically.</div>
+          </div>
+        ) : (
+        <div className="q-bar-row">
+          <div className="q-bar-stat"><div className="c-gauge-num">{totals.impressions.toLocaleString()}</div><div className="q-bar-lbl">Impressions</div></div>
+          <div className="q-bar-stat"><div className="q-big" style={{color:"var(--cyan)"}}>{totals.clicks.toLocaleString()}</div><div className="q-bar-lbl">Clicks</div></div>
+          <div className="q-bar-stat"><div className="q-big" style={{color:"var(--amber)"}}>{totals.conversions.toLocaleString()}</div><div className="q-bar-lbl">Conversions</div></div>
+          <div className="q-bar-stat"><div className="c-rate" style={{color:"var(--green)"}}>{(rates.ctr*100).toFixed(2)}%</div><div className="q-bar-lbl">CTR</div></div>
+          <div className="q-bar-stat"><div className="c-rate" style={{color:"var(--purple)"}}>{(rates.convRate*100).toFixed(2)}%</div><div className="q-bar-lbl">Conv. Rate</div></div>
+        </div>
+        )}
+      </div></div>
+
+      <div className="panel s12"><div className="panel-head"><span className="panel-title">Per-Asset Performance</span></div>
+      <div className="panel-body">
+        {!stats?.count ? null : (
+        <table className="tbl"><thead><tr><th>Asset</th><th>Impressions</th><th>Clicks</th><th>Conversions</th><th>CTR</th></tr></thead><tbody>
+          {stats.assets.map(a=> (
+            <tr key={a.assetId}>
+              <td style={{fontWeight:500}}>{a.assetId.slice(0,8)}…</td>
+              <td>{a.impressions.toLocaleString()}</td>
+              <td>{a.clicks.toLocaleString()}</td>
+              <td>{a.conversions.toLocaleString()}</td>
+              <td>{a.impressions ? ((a.clicks/a.impressions)*100).toFixed(2)+"%" : "—"}</td>
+            </tr>
+          ))}
+        </tbody></table>)}
+      </div></div>
+    </>
+  );
+}
+
 // ─── MAIN APP ─────────────────────────────────────────
 function App() {
   const [nav, setNav] = useState("dashboard");
+  const [focusBriefId, setFocusBriefId] = useState(null);
   const [system, setSystem] = useState(null);
   const [agents, setAgents] = useState([]);
   const [plugins, setPlugins] = useState([]);
@@ -1096,6 +1663,11 @@ function App() {
       case "plugins":  return <PluginsPage plugins={plugins}/>;
       case "logs":     return <LogsPage logs={logs} logRef={logRef}/>;
       case "settings": return <SettingsPage system={system}/>;
+      case "content":  return <BriefBuilderPage onOpenBrief={(id)=>{setFocusBriefId(id); setNav("drafts");}}/>;
+      case "drafts":   return <DraftWorkspacePage focusBriefId={focusBriefId}/>;
+      case "approvals":return <ApprovalQueuePage/>;
+      case "calendar": return <CalendarSchedulerPage/>;
+      case "performance": return <PerformancePage/>;
       default: return null;
     }
   };
@@ -1127,6 +1699,11 @@ function App() {
           {id:"agents",   icon:icons.agents,   label:"Agents"},
           {id:"queue",    icon:icons.queue,    label:"Queue"},
           {id:"plugins",  icon:icons.plugins,  label:"Plugins"},
+          {id:"content",  icon:icons.content,  label:"Content"},
+          {id:"drafts",   icon:icons.drafts,   label:"Drafts"},
+          {id:"approvals",icon:icons.approvals,label:"Approvals"},
+          {id:"calendar", icon:icons.calendar, label:"Calendar"},
+          {id:"performance", icon:icons.performance, label:"Performance"},
           {id:"logs",     icon:icons.logs,     label:"Logs"},
           {id:"playbook", icon:icons.playbook, label:"Playbook"},
           {id:"settings", icon:icons.settings, label:"Settings"}

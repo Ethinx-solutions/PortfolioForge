@@ -1,11 +1,13 @@
 import { GrowthAgent } from "./growthAgent.js";
 import { SEOAgent } from "./seoAgent.js";
+import { ContentAgent } from "./contentAgent.js";
 import { emit } from "../core/pluginRunner.js";
 import { log } from "../core/logger.js";
 
 const agents = [
   new GrowthAgent(),
-  new SEOAgent()
+  new SEOAgent(),
+  new ContentAgent()
 ];
 
 export async function runAgents(ctx) {
