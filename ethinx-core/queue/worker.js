@@ -1,6 +1,10 @@
+import "../core/env.js";
 import { Worker } from "bullmq";
 import { runAgents } from "../agents/orchestrator.js";
+import { ContentAgent } from "../agents/contentAgent.js";
 import { log } from "../core/logger.js";
+
+const contentAgent = new ContentAgent();
 
 // BullMQ requires its own Redis connection with maxRetriesPerRequest: null
 // Sharing the main ioredis client causes blocking command conflicts on Cloud Run
@@ -27,7 +31,19 @@ const worker = new Worker(
   "tasks",
   async (job) => {
     log("Worker", "info", `▶  Job ${job.id} — ${job.data?.type || "default"}`);
-    await runAgents(job.data || {});
+    if (job.data?.type === "content") {
+      await contentAgent.setState("running");
+      try {
+        await contentAgent.run(job.data);
+        await contentAgent.setState("idle");
+        await contentAgent.recordRun();
+      } catch (err) {
+        await contentAgent.setState("error");
+        throw err;
+      }
+    } else {
+      await runAgents(job.data || {});
+    }
     log("Worker", "info", `✓  Job ${job.id} complete`);
   },
   {

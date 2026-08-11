@@ -1,111 +1,48 @@
+﻿import "../core/env.js";
 import express from "express";
 import { createServer } from "http";
-import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-import helmet from "helmet";
-import cors from "cors";
-import rateLimit from "express-rate-limit";
 import { taskQueue } from "../queue/queue.js";
 import { attachWebSocket } from "../core/wsServer.js";
 import { log } from "../core/logger.js";
 import helmet from "helmet";
-import { Environment, Paddle } from "@paddle/paddle-node-sdk";
 import { redis } from "../memory/redis.js";
 import billingRoutes from "./billing.js";
 import webhookRoutes from "./webhook.js";
 import dashboardRoutes from "./dashboard.js";
-import { redis } from "../memory/redis.js";
+import contentRoutes from "./content.js";
+import registerWebhooks from "./webhooks/index.js";
 
-dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const server = createServer(app);
 
-// Security Middleware
-app.use(helmet());
-app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:3000"
-}));
-
-// Rate Limiting
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  message: { status: 429, message: "Too many requests from this IP, please try again after 15 minutes" }
-});
-
-// Apply rate limiter to all /api routes
-app.use("/api", apiLimiter);
-const paddle = new Paddle(process.env.PADDLE_API_KEY || "", {
-  environment:
-    process.env.NODE_ENV === "production"
-      ? Environment.production
-      : Environment.sandbox,
-});
-
 app.use(helmet({ hsts: false, contentSecurityPolicy: false }));
 
+// Mount all webhooks BEFORE json middleware
+registerWebhooks(app);
 // Attach WebSocket for real-time dashboard logs
 attachWebSocket(server);
 
-// Webhook needs raw body — mount BEFORE json parser
+// Webhook needs raw body â€” mount BEFORE json parser
 app.use("/stripe", webhookRoutes);
 
-// Paddle webhook - must use raw body
-app.post(
-  "/webhooks/paddle",
-  express.raw({ type: "application/json" }),
-  async (req, res) => {
-    try {
-      const signature = req.headers["paddle-signature"];
-      const secret = process.env.PADDLE_WEBHOOK_SECRET;
-
-      if (!signature || !secret) {
-        log("Billing", "error", "Missing Paddle signature or secret");
-        return res.sendStatus(400);
-      }
-
-      const rawBody = req.body.toString("utf8");
-      const event = await paddle.webhooks.unmarshal(rawBody, secret, signature);
-
-      log("Billing", "info", `✅ Paddle webhook verified: ${event.eventType}`);
-
-      // TODO: handle event types
-      // switch(event.eventType) { ... }
-
-      res.sendStatus(200);
-    } catch (err) {
-      log("Billing", "error", `❌ Paddle webhook verification failed: ${err.message}`);
-      res.sendStatus(400);
-    }
+// Paddle webhook skeleton
+app.post("/webhooks/paddle", express.raw({ type: "application/json" }), async (req, res) => {
+  try {
+    // TODO: Verify Paddle signature placeholder
+    const event = JSON.parse(req.body.toString());
+    log("Billing", "info", `Paddle event received: ${event.event_type || "unknown"}`);
+    res.json({ received: true });
+  } catch (e) {
+    log("Billing", "error", `Paddle webhook error: ${e.message}`);
+    res.status(200).json({ error: "Invalid payload" }); // Always 200 to prevent retries on bad data
   }
-);
+});
 
 app.use(express.json());
-
-// Health Checks
-app.get("/healthz", (req, res) => {
-  res.status(200).json({ status: "ok" });
-});
-
-app.get("/readyz", async (req, res) => {
-  try {
-    // Check Redis connection
-    await redis.ping();
-    
-    // Check Queue connection (BullMQ uses the same redis instance)
-    const isPaused = await taskQueue.isPaused();
-    
-    res.status(200).json({ status: "ok", queue: "connected" });
-  } catch (err) {
-    log("System", "error", `Readiness check failed: ${err.message}`);
-    res.status(503).json({ status: "error", message: "Service Unavailable" });
-  }
-});
 
 // Serve dashboard UI
 app.use(express.static(path.resolve(__dirname, "../public")));
@@ -113,6 +50,7 @@ app.use(express.static(path.resolve(__dirname, "../public")));
 // API routes
 app.use("/billing", billingRoutes);
 app.use("/api", dashboardRoutes);
+app.use("/api/content", contentRoutes);
 
 app.post("/run", async (req, res) => {
   await taskQueue.add("job", req.body);
@@ -120,9 +58,6 @@ app.post("/run", async (req, res) => {
   res.json({ status: "queued" });
 });
 
-// Deprecated health endpoint, keeping for compatibility but redirecting to /healthz logic
-app.get("/health", (req, res) => {
-  res.json({ status: "ok", uptime: process.uptime() });
 app.get("/healthz", (req, res) =>
   res.json({ status: "ok", uptime: process.uptime(), ts: Date.now() })
 );
@@ -139,8 +74,11 @@ app.get("/readyz", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
+server.listen(PORT, "127.0.0.1", () => {
   log("System", "info", `Ethinx Core API on port ${PORT}`);
-  log("System", "info", `Dashboard → http://localhost:${PORT}`);
-  log("System", "info", `WebSocket → ws://localhost:${PORT}/ws`);
+  log("System", "info", `Dashboard â†’ http://localhost:${PORT}`);
+  log("System", "info", `WebSocket â†’ ws://localhost:${PORT}/ws`);
 });
+
+
+
