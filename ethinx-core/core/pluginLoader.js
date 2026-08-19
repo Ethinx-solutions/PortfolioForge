@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 import { log } from "./logger.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -15,7 +15,7 @@ export async function loadPlugins() {
     const indexPath = path.join(pluginDir, folder, "index.js");
     if (fs.existsSync(indexPath)) {
       try {
-        const mod = await import(indexPath);
+        const mod = await import(pathToFileURL(path.resolve(indexPath)).href);
         plugins.push(mod.default || mod);
         log("System", "info", `🔌 Loaded plugin: ${folder}`);
       } catch (e) {

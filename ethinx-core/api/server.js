@@ -26,7 +26,7 @@ registerWebhooks(app);
 // Attach WebSocket for real-time dashboard logs
 attachWebSocket(server);
 
-// Webhook needs raw body â€” mount BEFORE json parser
+// Webhook needs raw body — mount BEFORE json parser
 app.use("/stripe", webhookRoutes);
 
 // Paddle webhook skeleton
@@ -53,15 +53,26 @@ app.use("/api", dashboardRoutes);
 app.use("/api/content", contentRoutes);
 
 app.post("/run", async (req, res) => {
-  await taskQueue.add("job", req.body);
-  log("API", "info", "Task queued via /run");
-  res.json({ status: "queued" });
+  const { taskQueue, taskQueueReady } = await import("../queue/queue.js");
+  if (!taskQueueReady()) {
+    return res.status(503).json({ status: "no-redis", error: "Redis not connected — set REDIS_URL and start Redis to enable queued jobs" });
+  }
+  try {
+    await taskQueue.add("job", req.body);
+    log("API", "info", "Task queued via /run");
+    res.json({ status: "queued" });
+  } catch (e) {
+    res.status(503).json({ status: "no-redis", error: e.message });
+  }
 });
 
 app.get("/healthz", (req, res) =>
   res.json({ status: "ok", uptime: process.uptime(), ts: Date.now() })
 );
 app.get("/readyz", async (req, res) => {
+  if (!redis) {
+    return res.json({ status: "not-ready", redis: "not-configured", error: "REDIS_URL not set" });
+  }
   try {
     const timeout = new Promise((_, reject) =>
       setTimeout(() => reject(new Error("Redis ping timeout")), 500)
@@ -74,10 +85,11 @@ app.get("/readyz", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, "127.0.0.1", () => {
-  log("System", "info", `Ethinx Core API on port ${PORT}`);
-  log("System", "info", `Dashboard â†’ http://localhost:${PORT}`);
-  log("System", "info", `WebSocket â†’ ws://localhost:${PORT}/ws`);
+const HOST = process.env.HOST || "0.0.0.0";
+server.listen(PORT, HOST, () => {
+  log("System", "info", `Ethinx Core API on http://${HOST}:${PORT}`);
+  log("System", "info", `Dashboard → http://localhost:${PORT}`);
+  log("System", "info", `WebSocket → ws://localhost:${PORT}/ws`);
 });
 
 

@@ -1,24 +1,31 @@
 import express from "express";
 import { getLogs, getSubscriberCount } from "../core/logger.js";
 import { getMemory, saveMemory } from "../memory/store.js";
-import { redis } from "../memory/redis.js";
+import { redis, redisStatus } from "../memory/redis.js";
 import { loadPlugins } from "../core/pluginLoader.js";
 
 const router = express.Router();
 
 // ── SYSTEM STATUS ──────────────────────────────────────
 router.get("/status", async (req, res) => {
-  let redisOk = false;
-  try {
-    await redis.ping();
-    redisOk = true;
-  } catch {}
+  let redisPing = "unknown";
+  if (redis) {
+    try {
+      const r = await redis.ping();
+      redisPing = r === "PONG" ? "connected" : "disconnected";
+    } catch {
+      redisPing = "disconnected";
+    }
+  } else {
+    redisPing = "not-configured";
+  }
 
   res.json({
     status: "running",
     uptime: process.uptime(),
     memoryMB: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
-    redis: redisOk ? "connected" : "disconnected",
+    redis: redisStatus(),
+    redisPing,
     wsClients: getSubscriberCount(),
     nodeVersion: process.version,
     timestamp: new Date().toISOString()
@@ -43,9 +50,16 @@ router.get("/agents", async (req, res) => {
 
 // ── TRIGGER AGENT RUN ──────────────────────────────────
 router.post("/agents/run", async (req, res) => {
-  const { taskQueue } = await import("../queue/queue.js");
-  await taskQueue.add("job", req.body || {});
-  res.json({ status: "queued", message: "Agent run queued" });
+  const { taskQueue, taskQueueReady } = await import("../queue/queue.js");
+  if (!taskQueueReady()) {
+    return res.status(503).json({ status: "no-redis", error: "Redis not connected — set REDIS_URL and start Redis to enable queued runs" });
+  }
+  try {
+    await taskQueue.add("job", req.body || {});
+    res.json({ status: "queued", message: "Agent run queued" });
+  } catch (e) {
+    res.status(503).json({ status: "no-redis", error: e.message });
+  }
 });
 
 // ── LOGS ───────────────────────────────────────────────
@@ -102,12 +116,15 @@ router.get("/revenue", async (req, res) => {
 // ── QUEUE STATUS ───────────────────────────────────────
 router.get("/queue", async (req, res) => {
   try {
-    const { taskQueue } = await import("../queue/queue.js");
+    const { taskQueue, taskQueueReady } = await import("../queue/queue.js");
+    if (!taskQueueReady()) {
+      return res.json({ waiting: 0, active: 0, completed: 0, failed: 0, state: "no-redis" });
+    }
     const waiting = await taskQueue.getWaitingCount();
     const active = await taskQueue.getActiveCount();
     const completed = await taskQueue.getCompletedCount();
     const failed = await taskQueue.getFailedCount();
-    res.json({ waiting, active, completed, failed });
+    res.json({ waiting, active, completed, failed, state: "ok" });
   } catch (e) {
     res.json({ waiting: 0, active: 0, completed: 0, failed: 0, error: e.message });
   }

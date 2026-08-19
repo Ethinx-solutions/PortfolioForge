@@ -1,18 +1,64 @@
-# ethinx-core
+# ethinx-core — ETHINX Auto Content Machine
 
-Content engine API + worker for the Ethinx platform. Deployed on Hetzner and exposed via Cloudflare tunnel at `https://content.ethinx.solutions`.
+Content engine API + agent worker for Ethinx. Auto-generates, reviews, schedules, and distributes content. Serves the ETHINX Command Center dashboard.
 
-## Infrastructure Note (Aug 2026)
+## Quick Start (local)
 
-- **Redis:** The host `redis-server.service` is **permanently disabled**. The PM2 Celery workers (`ethinx-agent-fabric`) and `ethinx-content` both correctly route through Docker's `ethinx-redis` on `127.0.0.1:6379` (persistent volume + `--appendonly yes`). Do **not** start the host service — it will cause a boot race condition for port 6379.
-- **Networking:** `server.js` must remain bound to `127.0.0.1`. Do **not** run `sed` replacements for `0.0.0.0` — public traffic is handled exclusively via the secure tunnel (`cloudflared-optivid.service`, ingress `content.ethinx.solutions → http://localhost:3200`).
-- **Config loading:** `.env` is loaded once via `core/env.js` by absolute app-root path — independent of `process.cwd()`. In production a missing `REDIS_URL` throws at boot (no silent in-memory fallback).
-- **PM2:** Both processes (`ethinx-content`, `ethinx-content-worker`) are managed by `ecosystem.config.cjs` and saved to the dump. Deploy via `scripts/deploy-hetzner.sh` (npm ci + `pm2 restart ecosystem.config.cjs` + `pm2 save`).
+```bash
+npm install
+
+# Option A — Redis via Docker (recommended): brings up redis + app
+docker-compose up -d          # app on http://localhost:3000, redis on :6379
+
+# Option B — Redis via PM2 (Windows / no Docker):
+pm2 start ecosystem.config.js --env production
+pm2 logs content-machine
+```
+
+Requires a `REDIS_URL` in `.env` for background jobs. Without Redis the API/dashboard still run (in-memory store fallback), and the worker logs a single warning instead of crash-looping.
+
+```bash
+# Local docker redis:
+# REDIS_URL=redis://localhost:6379
+
+# Upstash (serverless):
+# REDIS_URL=rediss://default:<password>@<host>:6379
+```
 
 ## Commands
 
 ```bash
-npm install
-pm2 start ecosystem.config.cjs && pm2 save
-bash scripts/deploy-hetzner.sh
+npm run dev        # API server only (node api/server.js)
+npm run worker     # BullMQ worker only
+npm start          # both via concurrently
+pm2 start ecosystem.config.js --env production   # persistent process
+pm2 logs content-machine
+pm2 monit
+docker-compose up -d          # persist via Docker
+docker-compose logs -f app
 ```
+
+## Environment (.env)
+
+| Var              | Purpose                                   |
+|------------------|-------------------------------------------|
+| `PORT`           | HTTP port (default 3000)                  |
+| `HOST`           | Bind address (default `0.0.0.0`)          |
+| `REDIS_URL`      | `redis://` or `rediss://` connection      |
+| `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | Stripe billing |
+| `API_KEYS`       | Key for external service calls            |
+
+## Endpoints
+
+- `GET /` — ETHINX Command Center dashboard (React, fully offline — no CDN)
+- `GET /healthz` — liveness probe
+- `GET /readyz` — readiness (checks Redis)
+- `GET /api/status` — system + Redis status
+- `GET /api/content/briefs` — content engine briefs
+- `POST /run` — enqueue a job (requires Redis)
+
+## Infrastructure Note (Aug 2026)
+
+- **Redis on Hetzner:** local `redis-server.service` is disabled; the container `ethinx-redis` on `127.0.0.1:6379` is used. On local dev use Docker or Upstash.
+- **Binding:** default is `0.0.0.0:3000` (reachable on LAN). Set `HOST=127.0.0.1` in `.env` to restrict when behind a tunnel.
+- **PM2:** processes are managed via `ecosystem.config.js` (`content-machine`) and `ecosystem.config.cjs` (split server/worker on Hetzner). Deploy via `scripts/deploy-hetzner.sh`.
